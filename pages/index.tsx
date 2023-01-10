@@ -3,6 +3,8 @@ import Head from 'next/head'
 import { Arrow, Like } from '@react-vant/icons';
 import { Card, Image, Button, Toast, Space, Typography, Tag } from 'react-vant';
 import {NextPageWithLayout} from "./_app";
+import React, {ReactElement} from "react";
+import Layout from "../components/Layout";
 
 const Home: NextPageWithLayout = () => {
   return (
@@ -70,7 +72,11 @@ const Home: NextPageWithLayout = () => {
     </div>
   )
 }
-// Home.getLayout = function () {
-//
-// }
+Home.getLayout = function (page: ReactElement) {
+  return (
+      <Layout>
+        {page}
+      </Layout>
+  )
+}
 export default Home
