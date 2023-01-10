@@ -1,11 +1,25 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    "./components/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {},
+    animation: {
+      rotateInfinity: 'rotateInfinity .8s steps(8) infinite',
+    },
+    keyframes: {
+      rotateInfinity: {
+        from: {
+          transform: 'rotate(0deg)'
+        },
+        to: {
+          transform: 'rotate(360deg)'
+        },
+      },
+    },
     fontFamily:{
       'poppins-black': ['Poppins-Black'],
       'poppins-black-italic': ['Poppins-BlackItalic'],

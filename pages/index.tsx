@@ -5,8 +5,11 @@ import { Card, Image, Button, Toast, Space, Typography, Tag } from 'react-vant';
 import {NextPageWithLayout} from "./_app";
 import React, {ReactElement} from "react";
 import Layout from "../components/Layout";
+import { useState } from 'react';
+import CreateOrderPop from '../components/CreateOrderPop';
 
 const Home: NextPageWithLayout = () => {
+  const [visible, setVisible] = useState(true)
   return (
     <div>
       <Head>
@@ -19,6 +22,8 @@ const Home: NextPageWithLayout = () => {
       direction="vertical"
       style={{ padding: 20, width: '100%', backgroundColor: '#f2f2f2', boxSizing: 'border-box' }}
     >
+      <Button type="primary" round onClick={() => setVisible(true)}>CreateOrderPop Open</Button>
+      <CreateOrderPop  open={visible} close={() => setVisible(false)} />
       <Typography.Title level={1}>
         Hello React Vant <Tag type="primary">v3</Tag>
       </Typography.Title>

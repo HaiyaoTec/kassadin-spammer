@@ -34,7 +34,15 @@ const nextConfig = withTM(withImages({
         ignoreBuildErrors: true,
     },
     images: {
-        disableStaticImages: true
+        disableStaticImages: true,
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'img2.baidu.com',
+            port: '',
+            pathname: '/**',
+          }
+        ]
     }
 }))
 
