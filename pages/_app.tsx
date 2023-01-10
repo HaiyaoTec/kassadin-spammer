@@ -1,9 +1,16 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import React from "react";
+import React, {ReactElement, ReactNode} from "react";
 import '../styles/globals.css'
-
-function MyApp({ Component, pageProps }: AppProps) {
+import {NextPage} from "next";
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout || (pageProps => pageProps)
   return <>
     <Head >
       <meta
@@ -11,7 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"
       />
     </Head>
-    <Component {...pageProps} />
+    {getLayout(
+        <Component {...pageProps} />
+    )}
   </>
 }
 
