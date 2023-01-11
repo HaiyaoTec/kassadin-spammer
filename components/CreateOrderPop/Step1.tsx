@@ -59,8 +59,8 @@ const Step1 = (props: {
               <BlurImg src={item.img} />
             </div>
             <div className="text-[rgba(51,51,64,0.88)]">
-              <p className="label-2-semi-bold mb-[4px]">{item.bankNumber}</p>
-              <p className="label-3-regular">{item.bankRemark}</p>
+              <p className="label-3-semi-bold mb-[4px]">{item.bankNumber}</p>
+              <p className="label-4-regular">{item.bankRemark}</p>
             </div>
           </div>
           {item.disabled || <div className={`w-[18px] h-[18px] rounded-[50%] flex justify-center items-center ${activeBank.id === item.id ? 'bg-[#1EA68A]' : 'bg-[rgba(61,61,89,0.18)]'}`}>

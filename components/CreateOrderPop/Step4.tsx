@@ -22,34 +22,34 @@ const Step4 = () => {
       <div className="bg-[linear-gradient(180deg,#44DE94_0%,#1EA68A_100%)] w-[100px] h-[100px] rounded-[50%] flex justify-center items-center mx-auto">
         <SvgSuccess />
       </div>
-      <div className="mt-[40px] label label-2-semi-bold flex justify-between items-center h-[24px]">
+      <div className="mt-[40px] label label-3-semi-bold flex justify-between items-center h-[24px]">
         <span>Barang</span>
-        <p className="flex items-center label-2-regular">
+        <p className="flex items-center label-3-regular">
           #{data.orderId}
           <span onClick={() => copyText(String(data.orderId))} className="inline-flex justify-center items-center w-[24px] h-[24px] bg-[rgba(30,166,138,0.1)] rounded-[3px] ml-[4px] cursor-pointer"><SvgCopy /></span>
         </p>
       </div>
-      <div className="mt-[12px] label label-2-semi-bold flex justify-between items-center h-[24px]">
+      <div className="mt-[12px] label label-3-semi-bold flex justify-between items-center h-[24px]">
         <span>Barang</span>
         <p className="label-3-bold flex items-center">
           <Image alt="" src={money} width={18} height={18} />
           <span className="ml-[4px] text-[#1EA68A]">{toNonExponential(data.barang)}</span>
         </p>
       </div>
-      <div className="mt-[12px] label label-2-semi-bold flex justify-between items-center h-[24px]">
+      <div className="mt-[12px] label label-3-semi-bold flex justify-between items-center h-[24px]">
         <span>Harga</span>
         <p className="label-3-bold flex items-center text-[#1EA68A]">
           Rp {toNonExponential(data.harga)}
           <span onClick={() => alert('eye click')} className="inline-flex justify-center items-center w-[24px] h-[24px] bg-[rgba(30,166,138,0.1)] rounded-[3px] ml-[4px] cursor-pointer"><SvgEye /></span>
         </p>
       </div>
-      <div className="mt-[12px] label label-2-semi-bold flex justify-between items-center h-[24px]">
+      <div className="mt-[12px] label label-3-semi-bold flex justify-between items-center h-[24px]">
         <span>Menerima ID</span>
-        <p className="label-2-regular">{data.menerimaId}</p>
+        <p className="label-3-regular">{data.menerimaId}</p>
       </div>
-      <div className="mt-[12px] label label-2-semi-bold flex justify-between items-center h-[24px]">
+      <div className="mt-[12px] label label-3-semi-bold flex justify-between items-center h-[24px]">
         <span>Jam Kedatangan</span>
-        <p className="label-2-regular">{formatDate(data.time, 'DD-MM-YYYY HH:mm:ss')}</p>
+        <p className="label-3-regular">{formatDate(data.time, 'DD-MM-YYYY HH:mm:ss')}</p>
       </div>
     </div>
   )
