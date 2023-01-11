@@ -1,3 +1,7 @@
+:root {
+    --pop-height: 100%;
+}
+
 html,
 body {
     padding: 0;

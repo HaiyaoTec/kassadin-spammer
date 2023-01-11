@@ -49,7 +49,7 @@ const Step4 = () => {
       </div>
       <div className="mt-[12px] label label-3-semi-bold flex justify-between items-center h-[24px]">
         <span>Jam Kedatangan</span>
-        <p className="label-3-regular">{formatDate(data.time, 'DD-MM-YYYY HH:mm:ss')}</p>
+        <p className="label-3-regular">{formatDate(data.time, 'DD/MM/YYYY HH:mm:ss')}</p>
       </div>
     </div>
   )

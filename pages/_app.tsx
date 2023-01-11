@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import React, {ReactElement, ReactNode} from "react";
+import React, {ReactElement, ReactNode, useEffect} from "react";
 import '../styles/globals.css'
 import {NextPage} from "next";
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -9,8 +9,19 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
+const boxHeightChange = () => {
+  document.documentElement.style.setProperty('--pop-height', `${window.innerHeight}px`)
+}
+
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || (pageProps => pageProps)
+  useEffect(() => {
+    window.addEventListener('resize', boxHeightChange)
+    boxHeightChange()
+    return () => {
+      window.removeEventListener('resize', boxHeightChange)
+    }
+  }, [])
   return <>
     <Head >
       <meta
