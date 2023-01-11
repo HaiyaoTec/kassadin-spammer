@@ -13,6 +13,7 @@ const BlurImg = (props: {
       src={props.src}
       alt={props.alt}
       layout="fill"
+      objectFit="cover"
       className={
         `duration-700 w-full h-full ease-in-out ${
           loading
