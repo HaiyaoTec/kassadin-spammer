@@ -18,7 +18,7 @@ const Step2 = (props: {
       <h3 className="text-[#1EA68A] h2-semi-bold text-center">Konfrmasi Pemesanan</h3>
       <p className="mt-[49px] label label-4-semi-bold">Menerima ID</p>
       <Input
-        className="!text-[14px] [border:1px_solid_rgba(53,63,78,0.07)] bg-[#F9F9FC] h-[50px] px-[16px] rounded-[3px] mt-[9px] mb-[20px] [&>input]:!text-[rgba(51,51,64,0.88)]"
+        className="!text-[14px] [border:1px_solid_rgba(53,63,78,0.07)] bg-[#F9F9FC] h-[50px] px-[16px] rounded-[3px] mt-[9px] mb-[20px] [&>input]:!text-[rgba(51,51,64,0.88)] [&>input::placeholder]:text-[rgba(61,61,89,0.18)]"
         value={code}
         onChange={code => setCode(code)}
         placeholder='Verification Code'
