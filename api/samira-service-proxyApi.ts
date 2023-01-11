@@ -15,6 +15,7 @@ export interface CoinGoods {
 
   /** 金额 */
   income?: number;
+  background?: string;
 }
 
 export interface CoinOrderPage {

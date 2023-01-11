@@ -13,26 +13,31 @@ import { useState } from 'react';
 import CreateOrderPop from '../components/CreateOrderPop';
 // @ts-ignore
 import cardButton from '@/assets/images/cardButton.png'
-const CommodityCard = () => {
+import mainApi from "../api";
+import {CoinGoods, CoinOrderBulletin} from "../api/samira-service-proxyApi";
+
+const CommodityCard = (props:{good:CoinGoods}) => {
+    const {good} = props
     const themeVars = {
         cardRadius: '12px'
     }
     return (<ConfigProvider themeVars={themeVars}>
             <Card round className={'w-full'}>
-                <Image src={CardDome} className={'opacity-70'}/>
+                <Image src={good.background}/>
                 <div className={'right-1/2 translate-x-1/2 absolute top-0 w-[94.8%]'}>
                     <Image src={CardTop}/>
-                    <div className={'text-[3.75vw] top-[15%] absolute flex w-full label-3-bold items-center justify-center text-[#E49BB4]'}><Money className={'mr-0.5'}/><span>300.000.000</span></div>
+                    <div className={'text-[3.75vw] top-[15%] absolute flex w-full label-3-bold items-center justify-center text-[#E49BB4]'}><Money className={'mr-0.5'}/><span>{good.income}</span></div>
                 </div>
                 <div className={'cursor-pointer right-1/2 translate-x-1/2 absolute bottom-[6%] w-[81%]'}>
                     <Image src={cardButton}/>
-                    <div className={'text-[4.8vw] text-white bottom-[35%] absolute flex w-full label-1-bold items-center justify-center'}><span>Rp 300</span></div>
+                    <div className={'text-[4.8vw] text-white bottom-[35%] absolute flex w-full label-1-bold items-center justify-center'}><span>Rp {good.price}</span></div>
                 </div>
             </Card>
         </ConfigProvider>
     )
 }
-const Home: NextPageWithLayout = () => {
+const Home: NextPageWithLayout<{goods:CoinGoods[],bulletin:CoinOrderBulletin[]}> = (props:{goods:CoinGoods[],bulletin:CoinOrderBulletin[]}) => {
+  const {goods,bulletin }= props
   const [visible, setVisible] = useState(false)
     return (
         <Space
@@ -40,10 +45,10 @@ const Home: NextPageWithLayout = () => {
             gap={16}
             className={'box-border  flex-auto p-4 w-full bg-[#F8F8FA]'}
         >
-            <Notice/>
+            <Notice bulletin={bulletin}/>
             <div className={'grid gap-4 grid-cols-[repeat(2,_minmax(0,_1fr))]'}>
-                {new Array(7).fill(null).map((_, index) => (
-                    <CommodityCard  key={index}/>
+                {goods.map((good, index) => (
+                    <CommodityCard good={good}  key={index}/>
                 ))}
             </div>
           <CreateOrderPop  open={visible} close={() => setVisible(false)} />
@@ -58,8 +63,11 @@ Home.getLayout = function (page: ReactElement) {
     )
 }
 export async function getStaticProps() {
+    const goods = await mainApi.ServicePayApi.listGoods()
+    const bulletin = await mainApi.ServicePayApi.listBulletin()
     return {
-        props: {}, // will be passed to the page component as props
+        props: {goods,bulletin}, // will be passed to the page component as props
+        revalidate: 600
     }
 }
 

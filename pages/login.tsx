@@ -1,7 +1,7 @@
 // @ts-ignore
 import loginBanner from '@/assets/images/login_banner.png'
-import React, { useState} from 'react'
-import {Button, Input, Form, Typography, Toast, ConfigProvider} from 'react-vant'
+import React, {useState} from 'react'
+import {Button, Input, Form, Typography, Toast, ConfigProvider, FormInstance} from 'react-vant'
 import {useRouter} from "next/router";
 // @ts-ignore
 import Iphone from '@/assets/svgs/iPhone.svg'
@@ -13,26 +13,28 @@ import Shield from '@/assets/svgs/shield.svg'
 import User from '@/assets/svgs/user.svg'
 // @ts-ignore
 import RightSquare from '@/assets/svgs/rightSquare.svg'
-
+import {Login as LoginDto} from '../api/samira-service-user-httpApi'
 import {NextPage} from "next";
 import Image from "next/image";
+import mainApi from "../api";
 
 const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
     const {setMode} = props
-    const [form] = Form.useForm<any>()
+    const [form] = Form.useForm<LoginDto>()
     const router = useRouter()
     const [loading, setLoading] = useState<boolean>(false)
-    const onFinish = (values: any) => {
+    const onFinish = (values: LoginDto) => {
         setLoading(true)
         const toastLoading = Toast.loading({
-            message: '登录中...',
+            message: 'Masuk..',
             forbidClick: true
         })
-        fetch('https://baidu.com/').then(() => {
-            Toast.success('登录成功')
+        mainApi.ServiceUserApi.loginPassword(values).then((res) => {
+            Toast.success('Berhasil masuk')
+            console.log(res)
             router.replace('/')
         }).catch(() => {
-            Toast.fail('登录失败')
+            Toast.fail('Log masuk gagal')
         }).finally(() => {
             setLoading(false)
             toastLoading.clear()
@@ -43,7 +45,8 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
         onFinish={onFinish}
         footer={
             <div className={'absolute bottom-[-40px] w-full left-0 translate-y-[100%]'}>
-                <Button className={'!rounded-[18px] !border-0 label-1-bold !bg-[#1EA68A]'}  loading={loading}  nativeType='submit' type='primary' block>
+                <Button className={'!rounded-[18px] !border-0 label-1-bold !bg-[#1EA68A]'} loading={loading}
+                        nativeType='submit' type='primary' block>
                     Masuk
                 </Button>
                 <Typography.Text onClick={() => {
@@ -56,7 +59,7 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
     >
         <Form.Item
             rules={[{required: true, message: 'Identitas tidak bisa kosong'}]}
-            name='username'
+            name='uId'
             border={false}
             className={'mb-[30px]'}
         >
@@ -83,31 +86,64 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
 }
 const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
     const {setMode} = props
-    const [form] = Form.useForm<any>()
+    const [form] = Form.useForm<LoginDto>()
     const router = useRouter()
     const [loading, setLoading] = useState<boolean>(false)
-    const onFinish = (values: any) => {
+    const onFinish = (values: LoginDto) => {
+
         setLoading(true)
         const toastLoading = Toast.loading({
-            message: '登录中...',
+            message: 'Masuk..',
             forbidClick: true
         })
-        fetch('https://baidu.com/').then(() => {
-            Toast.success('登录成功')
+        mainApi.ServiceUserApi.loginPhoneNumber(values).then((res) => {
+            Toast.success('Berhasil masuk')
+            console.log(res)
             router.replace('/')
         }).catch(() => {
-            Toast.fail('登录失败')
+            Toast.fail('Log masuk gagal')
         }).finally(() => {
             setLoading(false)
             toastLoading.clear()
         })
+    }
+    const Send = (props: { form: FormInstance }) => {
+        const {form} = props
+        const [loading, setLoading] = useState<boolean>(false)
+        const [txt, setText] = useState('Dapatkan')
+        const time = (val: number = 60) => {
+            if (val > 0) {
+                setText(`${val}s`)
+                setTimeout(() => {
+                    time(--val)
+                }, 1000)
+            }else setText('Dapatkan')
+        }
+        const sendVerification = async () => {
+            await form.validateFields(['phoneNumber'])
+            setLoading(true)
+            mainApi.ServiceUserApi.loginSendVerificationCode({phoneNumber: form.getFieldValue('phoneNumber')}).then(() => {
+                Toast.success('Kirim sukses')
+                time()
+            }).catch(() => {
+                Toast.fail('Gagal mengirim')
+            }).finally(() => {
+                setLoading(false)
+            })
+        }
+        return (<Button
+            onClick={sendVerification}
+            loading={loading}
+            className={'!rounded-[3px] min-w-[91px] !text-white label-2-semi-bold !h-[50px] !py-[12px] !px-[10px] !border-0 !bg-[#1EA68A]'}
+            block>{txt}</Button>)
     }
     return (<Form
         form={form}
         onFinish={onFinish}
         footer={
             <div className={'absolute bottom-[-40px] w-full left-0 translate-y-[100%]'}>
-                <Button className={'!rounded-[18px] !border-0 label-1-bold !bg-[#1EA68A]'}  loading={loading}  nativeType='submit' type='primary' block>
+                <Button className={'!rounded-[18px] !border-0 label-1-bold !bg-[#1EA68A]'} loading={loading}
+                        nativeType='submit' type='primary' block>
                     Masuk
                 </Button>
                 <Typography.Text onClick={() => {
@@ -120,7 +156,7 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
     >
         <Form.Item
             rules={[{required: true, message: 'Nomor telepon tidak boleh kosong'}]}
-            name='username'
+            name='phoneNumber'
             border={false}
             className={'mb-[30px]'}
         >
@@ -133,14 +169,14 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
         </Form.Item>
         <Form.Item
             rules={[{required: true, message: 'Kode otentikasi tidak bisa kosong'}]}
-            name='password'
+            name='verificationCode'
             border={false}
         >
             <Input
                 className="[border:1px_solid_rgba(53,63,78,0.07)] mb-1 bg-[#F9F9FC] h-[50px] pl-[16px] rounded-[3px] [&>input]:!text-[rgba(51,51,64,0.88)]"
                 placeholder='Kode Verifikasi'
                 prefix={<Shield/>}
-                suffix={<Button className={'!rounded-[3px] !text-white label-2-semi-bold !h-[50px] !py-[12px] !px-[10px] !border-0 !bg-[#1EA68A]'} block >Dapatkan</Button>}
+                suffix={<Send form={form}/>}
                 type={'number'}
             />
         </Form.Item>

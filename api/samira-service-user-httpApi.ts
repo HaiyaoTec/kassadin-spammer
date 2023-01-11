@@ -30,7 +30,7 @@ export interface Login {
   equipment?: string;
 
   /** 设备号 */
-  deviceNumber: string;
+  deviceNumber?: string;
 
   /** 谷歌登陆时传的token */
   googleToken?: string;
@@ -211,12 +211,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @tags httpUser
    * @name LoginPhoneNumber
    * @summary 手机号登陆
-   * @request GET:/login/phoneNumber
+   * @request POST:/login/phoneNumber
    */
   loginPhoneNumber = (data: Login, params: RequestParams = {}) =>
     this.request<Token, any>({
       path: `/login/phoneNumber`,
-      method: "GET",
+      method: "POST",
       body: data,
       type: ContentType.Json,
       format: "json",
@@ -246,12 +246,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @tags httpUser
    * @name LoginPassword
    * @summary 密码登陆
-   * @request GET:/login/password
+   * @request POST:/login/password
    */
   loginPassword = (data: Login, params: RequestParams = {}) =>
     this.request<Token, any>({
       path: `/login/password`,
-      method: "GET",
+      method: "POST",
       body: data,
       type: ContentType.Json,
       format: "json",
