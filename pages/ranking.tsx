@@ -1,9 +1,6 @@
-import { Arrow, Like } from '@react-vant/icons';
-import { Card, Button, Toast, Space, Typography, Tag } from 'react-vant';
 import {NextPageWithLayout} from "./_app";
 import React, {ReactElement} from "react";
 import Layout from "../components/Layout";
-import { useState } from 'react';
 // @ts-ignore
 import money from "@/assets/images/money.png"
 // @ts-ignore
