@@ -1,6 +1,5 @@
 import React, {ReactNode, useEffect} from "react";
 import {ConfigProvider, NavBar, Tabbar} from "react-vant";
-import {FriendsO, HomeO, SettingO} from "@react-vant/icons";
 import {useRouter} from "next/router";
 import Image from "next/image";
 // @ts-ignore
@@ -9,12 +8,20 @@ import logo from '@/assets/images/logo.png'
 import Service from '@/assets/svgs/service.svg'
 // @ts-ignore
 import Logout from '@/assets/svgs/logout.svg'
+// @ts-ignore
+import Home from '@/assets/svgs/home.svg'
+// @ts-ignore
+import TimeCircle from '@/assets/svgs/timeCircle.svg'
+// @ts-ignore
+import Document from '@/assets/svgs/document.svg'
+// @ts-ignore
+import Ranking from '@/assets/svgs/ranking.svg'
 const CustomTabber = () => {
     const [name, setName] = React.useState('/')
     const router = useRouter()
     useEffect(()=>{
-        router.push(`${name}`)
-    },[name])
+        setName(router.pathname)
+    },[router.pathname])
     const themeVars = {
         tabbarHeight: '60px',
         tabbarItemIconSize: '24px'
@@ -22,17 +29,20 @@ const CustomTabber = () => {
     return (
         <ConfigProvider themeVars={themeVars}>
             <Tabbar  defaultValue={0} inactiveColor={'rgba(71, 71, 101, 0.55)'} activeColor={'#1EA68A'} placeholder fixed
-                    value={name} onChange={v => setName(v as string)}>
-                <Tabbar.Item name='/' icon={<HomeO/>}>
+                    value={name} onChange={v => {
+                    router.push(`${v}`)
+                    setName(v as string)
+            }}>
+                <Tabbar.Item name='/' icon={ac=><Home fill={ac?'#1EA68A':'#474765'}/>}>
                     Koin
                 </Tabbar.Item>
-                <Tabbar.Item name='/srecord' icon={<HomeO/>}>
+                <Tabbar.Item name='/srecord' icon={ac=><TimeCircle fill={ac?'#1EA68A':'#474765'}/>}>
                     Piwayat
                 </Tabbar.Item>
-                <Tabbar.Item name='/promotion' icon={<FriendsO/>}>
+                <Tabbar.Item name='/promotion' icon={ac=><Document fill={ac?'#1EA68A':'#474765'}/>}>
                     pontesional
                 </Tabbar.Item>
-                <Tabbar.Item name='/ranking' icon={<SettingO/>}>
+                <Tabbar.Item name='/ranking' icon={ac=><Ranking fill={ac?'#1EA68A':'#474765'}/>}>
                     pangkat
                 </Tabbar.Item>
             </Tabbar>

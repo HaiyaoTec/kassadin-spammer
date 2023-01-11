@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import React, {ReactElement, ReactNode, useEffect} from "react";
+import React, {ReactElement, ReactNode, useEffect, useState} from "react";
 import '../styles/globals.css'
 import {NextPage} from "next";
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -15,6 +15,13 @@ const boxHeightChange = () => {
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || (pageProps => pageProps)
+  const [vw,setVw] = useState(500)
+  useEffect(()=>{
+    setVw(document.body.clientWidth)
+    window.onresize = function () {
+      setVw(document.body.clientWidth)
+    }
+  },[])
   useEffect(() => {
     window.addEventListener('resize', boxHeightChange)
     boxHeightChange()
@@ -22,6 +29,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       window.removeEventListener('resize', boxHeightChange)
     }
   }, [])
+  return vw>500? <iframe style={{margin:"auto",border:'1px solid #1EA68A'}} width={500} height={'90%'} src={location.href} frameBorder="0"></iframe>:<>
   return <>
     <Head >
       <meta
