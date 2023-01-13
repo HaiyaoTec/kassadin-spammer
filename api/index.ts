@@ -4,7 +4,7 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 // 处理查询参数为数组的情况
 import * as qs from 'qs'
 // 配置默认baseURL
-const curBaseURL = 'http://api-samira-proxy.haiyaogame.com/api/'
+const curBaseURL = 'https://api-samira-proxy.haiyaogame.com/api/'
 import {Api as ServicePayApi} from './samira-service-proxyApi'
 import {Api as HeraclesPayApi} from './heracles-payApi'
 // @ts-ignore
