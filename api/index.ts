@@ -4,12 +4,12 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 // 处理查询参数为数组的情况
 import * as qs from 'qs'
 // 配置默认baseURL
-const curBaseURL = 'http://172.25.10.214:8080/api/'
+const curBaseURL = 'https://api-samira-proxy.haiyaogame.com/api/'
 import {Api as ServicePayApi} from './samira-service-proxyApi'
 import {Api as HeraclesPayApi} from './heracles-payApi'
 // @ts-ignore
 import {Api as ServiceUserApi, Token} from './samira-service-user-httpApi'
-import {getLocalStorage} from "../utils";
+import {delCookie, getLocalStorage} from "../utils";
 import {Toast} from "react-vant";
 import {Checked, Clear, Passed, Warning} from "@react-vant/icons";
 import {ToastOptions, ToastReturnType} from "react-vant/es/toast/PropsType";
@@ -66,9 +66,12 @@ const responseErrHandler = (error: AxiosError) => {
       return
     }
     const errCode = ((error?.response?.data) as any)?.errCode??"-1"
-    // useRouter().replace('/213')
+
     // @ts-ignore
-    if (errCode===1) useRouter().replace('/login')
+    if (errCode===1) {
+      localStorage.removeItem('samira-token')
+      delCookie('main_token')
+    }
     MyToast.error({
       message: errorCode[String(errCode)],
     });
