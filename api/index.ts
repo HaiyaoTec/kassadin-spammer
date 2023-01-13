@@ -6,19 +6,30 @@ import * as qs from 'qs'
 // 配置默认baseURL
 const curBaseURL = 'http://172.25.10.214:8080/api/'
 import {Api as ServicePayApi} from './samira-service-proxyApi'
+import {Api as HeraclesPayApi} from './heracles-payApi'
 // @ts-ignore
-import {Api as ServiceUserApi} from './samira-service-user-httpApi'
+import {Api as ServiceUserApi, Token} from './samira-service-user-httpApi'
+import {getLocalStorage} from "../utils";
+import {Toast} from "react-vant";
+import {Checked, Clear, Passed, Warning} from "@react-vant/icons";
+import {ToastOptions, ToastReturnType} from "react-vant/es/toast/PropsType";
+import {errorCode} from "./errorCode";
+import {Router, useRouter} from "next/router";
 // baseAPI
 const baseAPIMap = new Map()
 baseAPIMap.set('ServicePayApi', ServicePayApi)
 baseAPIMap.set('ServiceUserApi', ServiceUserApi)
+baseAPIMap.set('HeraclesPayApi',HeraclesPayApi)
+Toast.allowMultiple(false)
+
+
 // 默认请求中间件
 const requestMiddleWare = async (config: AxiosRequestConfig) => {
+  const token = typeof window === 'undefined'?'':getLocalStorage<Token>('samira-token').token
   config = {
     ...config,
     baseURL:curBaseURL,
     headers: {
-      "main_token":'123',
     },
     paramsSerializer: (params: any) => {
       return qs.stringify(params, { arrayFormat: 'comma' })
@@ -26,6 +37,10 @@ const requestMiddleWare = async (config: AxiosRequestConfig) => {
     timeout: 10000,
     timeoutErrorMessage: 'network timeout',
   }
+  if (token){ // @ts-ignore
+    config.headers['main_token'] = token
+  }
+  config.headers
   return config
 }
 
@@ -33,28 +48,30 @@ const requestMiddleWare = async (config: AxiosRequestConfig) => {
 const responseMiddleWare = (res: AxiosResponse) => {
   return res
 }
-
+export const MyToast = {
+  success:(opts:ToastOptions):ToastReturnType=>{
+    return Toast.info(Object.assign({position:'top',iconSize:'20',message:'success',duration:3000,icon:Checked({})},opts))
+  },
+  warning:(opts:ToastOptions):ToastReturnType=>{
+    return Toast.info(Object.assign({position:'top',iconSize:'20',message:'warning',duration:3000,icon:Warning({})},opts))
+  },
+  error:(opts:ToastOptions):ToastReturnType=>{
+    return Toast.info(Object.assign({position:'top',iconSize:'20',message:'error',duration:3000,icon:Clear({})},opts))
+  }
+}
 const responseErrHandler = (error: AxiosError) => {
   return new Promise<Response>((resolve, reject) => {
     if (error.message === 'network timeout') {
-      // notification.open({
-      //   // @ts-ignore
-      //   message: `请检查网络状态`,
-      //   // @ts-ignore
-      //   description: '请求超时',
-      //   duration: 4.5,
-      // });
+      MyToast.error({message:errorCode['-2']})
       return
     }
+    const errCode = ((error?.response?.data) as any)?.errCode??"-1"
+    // useRouter().replace('/213')
     // @ts-ignore
-    // if (error?.response?.data?.errCode===1) useRouter()?.replace({name:'login'})
-    // notification.open({
-    //   // @ts-ignore
-    //   message: `${error?.response?.data?.errSpace??'服务器'}错误(${error?.response?.data?.errCode})`,
-    //   // @ts-ignore
-    //   description: error?.response?.data?.errMsg??'未知的错误',
-    //   duration: 4.5,
-    // });
+    if (errCode===1) useRouter().replace('/login')
+    MyToast.error({
+      message: errorCode[String(errCode)],
+    });
     reject()
   })
 }
@@ -74,12 +91,14 @@ for (const [key, value] of baseAPIMap) {
 interface mainApi {
   ServiceUserApi:ServiceUserApi<unknown>
   ServicePayApi:ServicePayApi<unknown>
+  HeraclesPayApi:HeraclesPayApi<unknown>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 const mainApi: mainApi = {
   ServicePayApi:result.ServicePayApi,
-  ServiceUserApi:result.ServiceUserApi
+  ServiceUserApi:result.ServiceUserApi,
+  HeraclesPayApi:result.HeraclesPayApi
 }
 
 export default mainApi

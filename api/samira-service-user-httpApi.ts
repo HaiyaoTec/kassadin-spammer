@@ -10,16 +10,8 @@
  */
 
 export interface Token {
+  uId?: number;
   token?: string;
-
-  /** 第三方昵称 */
-  thirdPartyName?: string;
-
-  /** 第三方邮箱 */
-  thirdPartyEmail?: string;
-
-  /** 第三方头像 */
-  thirdPartyAvatar?: string;
 }
 
 export interface Login {
@@ -311,6 +303,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       body: data,
       secure: true,
       type: ContentType.Json,
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags httpUser
+   * @name LoginOffline
+   * @summary 用户下线
+   * @request PUT:/login/offline
+   * @secure
+   */
+  loginOffline = (params: RequestParams = {}) =>
+    this.request<any, any>({
+      path: `/login/offline`,
+      method: "PUT",
+      secure: true,
       ...params,
     });
 }

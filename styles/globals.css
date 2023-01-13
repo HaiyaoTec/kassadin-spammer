@@ -298,3 +298,52 @@ a {
 .rv-cell--required::before {
     display: none!important;
 }
+.notice{
+    --rv-notice-bar-height:32px;
+    --rv-notice-bar-padding:0 12px!important;
+}
+.rv-toast--top{
+    top:84px!important;
+    padding: 16px!important;
+    background-color: #292C34!important;
+    border-radius: 12px!important;
+    font-family: 'Poppins' !important;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    min-height: auto!important;
+    flex-flow: nowrap!important;
+    justify-content: space-between!important;
+    min-width: auto!important;
+    width: max-content!important;
+    max-width: 85vw !important;
+    overflow: hidden;
+
+}
+.rv-toast--top>svg{
+    font-size: 20px!important;
+    margin-right: 8px!important;
+    width: 20px!important;
+    height: 20px!important;
+    flex: none;
+}
+.rv-toast--top>.rv-toast__info{
+    margin-top: 0;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+#chat-widget{
+    width: 90% !important;
+    height: 90% !important;
+    right: 0!important;
+    bottom: 0!important;
+    inset: inherit!important;
+}
+#chat-widget-minimized{
+    visibility: hidden!important;
+    opacity: 0!important;
+    pointer-events: none!important;
+
+}

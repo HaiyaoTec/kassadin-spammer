@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect} from "react";
+import React, {ReactNode, useEffect, useState} from "react";
 import {ConfigProvider, NavBar, Tabbar} from "react-vant";
 import {useRouter} from "next/router";
 import Image from "next/image";
@@ -16,6 +16,10 @@ import TimeCircle from '@/assets/svgs/timeCircle.svg'
 import Document from '@/assets/svgs/document.svg'
 // @ts-ignore
 import Ranking from '@/assets/svgs/ranking.svg'
+import {delCookie, getLocalStorage} from "../utils";
+import {Token} from "../api/samira-service-user-httpApi";
+import mainApi, {MyToast} from "../api";
+import {useWidgetIsReady} from "@livechat/widget-react";
 const CustomTabber = () => {
     const [name, setName] = React.useState('/')
     const router = useRouter()
@@ -51,29 +55,53 @@ const CustomTabber = () => {
 }
 
 const CustomNavBar = ()=>{
-
     const RightBox = ()=>{
+        const router = useRouter()
+        const [Uid,setUid] = useState(0)
+        useEffect(()=>{
+            setUid(getLocalStorage<Token>('samira-token').uId||0)
+        },[])
+        const isReady = useWidgetIsReady()
+        const logout = ()=>{
+            mainApi.ServiceUserApi.loginOffline().finally(()=>{
+                localStorage.removeItem('samira-token')
+                delCookie('main_token')
+                router.replace('/login')
+            })
+        }
+        const openService = ()=>{
+            if (isReady){
+                // @ts-ignore
+                document.getElementById('chat-widget-minimized').contentWindow.document.querySelector('button').click()
+            }else {
+                MyToast.warning({message:'Tunggu sebentar.'})
+            }
+        }
         return (<div className={'flex [&>*]:ml-1'}>
             <div className={'label-4-semi-bold px-[6px] py-[11px] border-[rgba(53, 63, 78, 0.07)] border-solid cursor-pointer rounded-[3px] items-center justify-center flex bg-[#F9F9FC] border-[1px]'}>
-                <span className={'text-[#333340E0]'}>ID:<span className={'text-[#4747658C]'}>123123</span></span>
+                <span className={'text-[#333340E0]'}>ID:<span className={'text-[#4747658C]'}>{Uid}</span></span>
             </div>
-            <div className={'px-[10px] py-[6px] cursor-pointer rounded-[3px] items-center justify-center flex bg-[#1EA68A]'}>
+            <div onClick={openService} className={'px-[10px] py-[6px] cursor-pointer rounded-[3px] items-center justify-center flex bg-[#1EA68A]'}>
                 <Service/>
             </div>
-            <div className={'px-[10px] py-[5px] border-[rgba(53, 63, 78, 0.07)] border-solid cursor-pointer rounded-[3px] items-center justify-center flex bg-[#F9F9FC] border-[1px]'}>
+            <div  onClick={logout} className={'px-[10px] py-[5px] border-[rgba(53, 63, 78, 0.07)] border-solid cursor-pointer rounded-[3px] items-center justify-center flex bg-[#F9F9FC] border-[1px]'}>
                 <Logout/>
             </div>
         </div>)
     }
     const LeftBox = ()=>{
+
         return (<div className={'w-[119px] h-[30px] relative'}><Image layout={'fill'} src={logo} /></div>)
     }
     const themeVars = {
         navBarHeight:'50px',
         paddingMd:'12px'
     }
+    const router = useRouter()
+
     return (<ConfigProvider themeVars={themeVars}>
         <NavBar
+            onClickLeft={()=>router.push('/')}
             fixed
             placeholder
             leftText={<LeftBox/>}

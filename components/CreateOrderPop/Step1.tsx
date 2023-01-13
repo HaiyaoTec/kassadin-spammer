@@ -1,74 +1,48 @@
-import { Success } from "@react-vant/icons"
-import { useState } from "react"
-import BlurImg from "../BlurImg"
+import {Dispatch, SetStateAction, useEffect, useState} from "react"
+import { Button, Input } from "react-vant"
+// @ts-ignore
+import money from "@/assets/images/money.png"
+import Image from 'next/image'
+import { toNonExponential } from "../../utils"
+import {CoinGoods, CoinOrder, CoinOrderCreate, PayResponse} from "../../api/samira-service-proxyApi";
 
 const Step1 = (props: {
   setStep: React.Dispatch<React.SetStateAction<number>>
+    good: CoinGoods|undefined
+    setCommitData:Dispatch<SetStateAction<CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}>>
+    commitData:CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}
 }) => {
-  const bankList = [
-    {
-      id: 1,
-      img: 'https://img2.baidu.com/it/u=3564422843,1071800624&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=493',
-      bankNumber: '7831*****2131',
-      bankRemark: 'No****ah',
-      disabled: false,
-    },
-    {
-      id: 2,
-      img: 'https://img2.baidu.com/it/u=3564422843,1071800624&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=493',
-      bankNumber: '7831*****2131',
-      bankRemark: 'No****ah',
-      disabled: false,
-    },
-    {
-      id: 3,
-      img: 'https://img2.baidu.com/it/u=3564422843,1071800624&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=493',
-      bankNumber: '7831*****2131',
-      bankRemark: 'No****ah',
-      disabled: false,
-    },
-    {
-      id: 4,
-      img: 'https://img2.baidu.com/it/u=3564422843,1071800624&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=493',
-      bankNumber: '7831*****2131',
-      bankRemark: 'No****ah',
-      disabled: false,
-    },
-    {
-      id: 5,
-      img: 'https://img2.baidu.com/it/u=3564422843,1071800624&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=493',
-      bankNumber: '7831*****2131',
-      bankRemark: 'No****ah',
-      disabled: true,
-    },
-    {
-      id: 6,
-      img: 'https://img2.baidu.com/it/u=3564422843,1071800624&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=493',
-      bankNumber: '7831*****2131',
-      bankRemark: 'No****ah',
-      disabled: true,
-    },
-  ]
-  const [activeBank, setActiveBank] = useState(bankList[0])
+  const [code, setCode] = useState('')
+    const {good,setCommitData,commitData} = props
+   useEffect(()=>{
+       setCommitData(val=>({...val,receiverUid:code}))
+   },[code])
   return (
-    <div className="pt-[8px] pb-[20px] bg-[#F9F9FC]"> 
-      {bankList.map((item, key) => (
-        <div onClick={() => item.disabled || setActiveBank(item)} key={key} className={`rounded-[3px] px-[16px] py-[10px] flex items-center justify-between mb-[1px] transition-all duration-100 ${activeBank.id === item.id ? 'h-[60px] [border:1px_solid_#1EA68A] bg-[rgba(30,166,138,0.1)]' : 'h-[50px]'} ${item.disabled ? 'bg-[#EDEDF1]' : ''}`}>
-          <div className="flex items-center">
-            <div className="relative mr-[6px] w-[81px] h-[30px] [border:1px_solid_rgba(53,63,78,0.07)] rounded-[5px] overflow-hidden">
-              <BlurImg src={item.img} />
-            </div>
-            <div className="text-[rgba(51,51,64,0.88)]">
-              <p className="label-3-semi-bold mb-[4px]">{item.bankNumber}</p>
-              <p className="label-4-regular">{item.bankRemark}</p>
-            </div>
-          </div>
-          {item.disabled || <div className={`w-[18px] h-[18px] rounded-[50%] flex justify-center items-center ${activeBank.id === item.id ? 'bg-[#1EA68A]' : 'bg-[rgba(61,61,89,0.18)]'}`}>
-            {activeBank.id === item.id && <Success width={10} color="#ffffff" />}
-          </div>}
-        </div>
-      ))}
-      <button className="block mx-auto [border:1px_solid_#333]" onClick={() => props.setStep(v => v >= 3 ? 0 : v + 1)}>下一步</button>
+    <div className="pt-[18px] pb-[40px] px-[24px] [&_.label]:text-[rgba(58,58,89,0.33)]">
+      <h3 className="text-[#1EA68A] h2-semi-bold text-center">Konfrmasi Pemesanan</h3>
+      <p className="mt-[49px] label label-4-semi-bold">Menerima ID</p>
+      <Input
+        className="!text-[14px] [border:1px_solid_rgba(53,63,78,0.07)] bg-[#F9F9FC] h-[50px] px-[16px] rounded-[3px] mt-[9px] mb-[20px] [&>input]:!text-[rgba(51,51,64,0.88)] [&>input::placeholder]:text-[rgba(61,61,89,0.18)]"
+        value={code}
+        onChange={code => setCode(code)}
+        placeholder='Verification Code'
+      />
+      <div className="label label-3-semi-bold flex justify-between items-center h-[24px]">
+        <span>Barang</span>
+        <p className="label-3-bold flex items-center">
+          <Image alt="" src={money} width={18} height={18} />
+          <span className="ml-[4px] text-[#1EA68A]">{toNonExponential(good?.income??0)}</span>
+        </p>
+      </div>
+      <div className="mt-[20px] label label-3-semi-bold flex justify-between items-center h-[24px] mb-[40px]">
+        <span>Harga</span>
+        <p className="label-3-bold flex items-center text-[#1EA68A]">
+          Rp {toNonExponential(good?.price??0)}
+        </p>
+      </div>
+      <Button onClick={() => {
+          if (code)props.setStep(v => v+1)
+      }} className="!bg-[#1EA68A] !border-none rounded-[3px] label-2-bold !text-[16px] !text-[#ffffff] w-full">To Pay</Button>
     </div>
   )
 }

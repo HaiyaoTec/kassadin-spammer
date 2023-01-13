@@ -1,22 +1,25 @@
 // @ts-ignore
 import Eye from '@/assets/svgs/eye.svg'
 import {CoinOrderBulletin} from "../api/samira-service-proxyApi";
+import React, {useEffect, useState} from "react";
+import {ConfigProvider, NoticeBar} from "react-vant";
 
 const Notice = (props: { bulletin: CoinOrderBulletin[] }) => {
     const {bulletin} = props
+    const [loading,setLoading] = useState(false)
+    useEffect(()=>{
+        setLoading(true)
+    },[])
     return (<div
-        className={'items-center flex label-4-regular w-full py-[7px] px-3 rounded-[8px] bg-white border-solid border-[1px] border-[#353F4E12]'}>
-        <marquee>
-        <div className={'overflow-hidden h-full flex items-center [&>div]:mr-6 flex-1 mr-2'}>
+        className={'notice overflow-hidden items-center flex w-full rounded-[8px] bg-white border-solid border-[1px] border-[#353F4E12]'}>
+        {loading&&<NoticeBar background={'#fff'} rightIcon={<Eye fill={'#1EA68A'} className={'ml-1'}/>} className={'flex-1'} scrollable text={ <div className={'h-full flex items-center [&>div]:mr-6 '}>
                 {bulletin.map((it, index) => (
-                    <div key={index} className={'items-center flex [&>span]:whitespace-nowrap'}>
+                    <div key={index} className={'!text-[#333340] items-center label-4-regular flex [&>span]:whitespace-nowrap'}>
                         <span>{it.username}</span><span
                         className={'label-3-regular mx-2 text-[#FFB800]'}>Rp {it.income}</span><span>{it.createTime}</span>
                     </div>
                 ))}
-            </div>
-        </marquee>
-        <Eye fill={'#1EA68A'} className={'ml-auto'}/>
+            </div>} />}
     </div>)
 }
 export default Notice

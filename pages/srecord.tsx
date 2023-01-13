@@ -1,51 +1,44 @@
-import { Button, Input } from 'react-vant';
+import {Button, Empty, Input} from 'react-vant';
 import {NextPageWithLayout} from "./_app";
-import React, {ReactElement, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import Layout from "../components/Layout";
 // @ts-ignore
 import money from "@/assets/images/money.png"
 import Image from 'next/image'
-import { toNonExponential } from '../utils';
-import { formatDate } from '../utils/index';
 import { Arrow } from '@react-vant/icons';
-
+import mainApi from "../api";
+import {CoinOrder} from "../api/samira-service-proxyApi";
+import {formatDate, toNonExponential} from "../utils";
+const curCount = 10
 const Srecord: NextPageWithLayout = () => {
+  const [curPage,setCurPage] = useState(1)
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(false)
-  const [totals, setTotals] = useState(20)
-  const [list, setList] = useState([
-    {
-      id: 'DW3241S24023',
-      barang: 2000000,
-      time: +new Date('2023-1-11'),
-    },
-    {
-      id: 'DW3241S24023',
-      barang: 2000000,
-      time: +new Date('2023-1-11'),
-    },
-    {
-      id: 'DW3241S24023',
-      barang: 2000000,
-      time: +new Date('2023-1-11'),
-    },
-    {
-      id: 'DW3241S24023',
-      barang: 2000000,
-      time: +new Date('2023-1-11'),
-    },
-    {
-      id: 'DW3241S24023',
-      barang: 2000000,
-      time: +new Date('2023-1-11'),
-    },
-  ])
-  const getDate = () => {
+  const [load, setLoad] = useState(false)
+  const [totals, setTotals] = useState(0)
+  const [list, setList] = useState<CoinOrder[]>([])
+  const [searchLoading,setSearchLoading] = useState(false)
+  const getDate = (page?:number) => {
     setLoading(true)
-    setTimeout(() => {
+    mainApi.ServicePayApi.listOrder({curPage:page||curPage,curCount,receiverUid:search}).finally(()=>{
       setLoading(false)
-      setList(v => [...v, ...v.slice(0, 5)])
-    }, 500);
+      setSearchLoading(false)
+    }).then(res=>{
+      setTotals(res.totalCount!)
+      setList(v => v.concat(res.items||[]))
+      setCurPage(v=>v+1)
+    })
+  }
+  useEffect(getDate,[])
+  useEffect(()=>{
+    setLoad(true)
+  },[])
+  const searchFun = ()=>{
+     if (search.length>0){
+       setSearchLoading(true)
+       setList([])
+       getDate(1)
+     }
   }
   return (
     <div className="p-[12px_16px_0px]">
@@ -54,7 +47,7 @@ const Srecord: NextPageWithLayout = () => {
         value={search}
         onChange={str => setSearch(str)}
         suffix={
-          <Button className="!bg-[#1EA68A] !rounded-[3px] !h-[50px] translate-x-[1px] label-3-semi-bold !px-[10px] !text-[#ffffff] !border-none">Cari</Button>
+          <Button loading={searchLoading} onClick={searchFun} className="!bg-[#1EA68A] !rounded-[3px] !h-[50px] translate-x-[1px] label-3-semi-bold !px-[10px] !text-[#ffffff] !border-none">Cari</Button>
         }
         placeholder='Silakan Masukkan ID'
       />
@@ -71,19 +64,19 @@ const Srecord: NextPageWithLayout = () => {
         <table className="w-full">
           <tbody className="text-[rgba(51,51,64,0.88)]">
             {
-              list.map((item, idx) => (
+              list.length>0?list.map((item, idx) => (
                 <tr key={idx} className="whitespace-nowrap flex items-center h-[40px] mb-[10px] label-4-regular">
-                  <td className="flex-1">{item.id}</td>
+                  <td className="flex-1">{item.orderNo}</td>
                   <td className="flex-1 flex justify-center items-center">
                     <Image alt="" src={money} width={18} height={18} />
-                    <span className="ml-[4px] text-[#1EA68A] label-4-bold">{toNonExponential(item.barang)}</span>
+                    <span className="ml-[4px] text-[#1EA68A] label-4-bold">{toNonExponential(item.price||0)}</span>
                   </td>
-                  <td className="flex-1 flex justify-end items-center">
-                    {formatDate(item.time, 'DD/MM/YYYY HH:mm:ss')}
+                  <td className="flex-1 flex justify-end items-center mr-1">
+                    {formatDate(item.createTime!, 'DD/MM/YYYY HH:mm:ss')}
                     <Arrow width={14} height={14} />
                   </td>
                 </tr>
-              ))
+              )):load?<Empty className={'whitespace-nowrap'} description="Sudah tak terhitung jumlahnya" />:null
             }
           </tbody>
         </table>
@@ -96,10 +89,10 @@ const Srecord: NextPageWithLayout = () => {
         <div className="text-center mt-[10px] text-[12px] text-[rgba(58,58,89,0.33)]">
           {
             list.length >= totals
-              ? <span>No More</span>
+              ? <span>Tidak ada lagi</span>
               : loading
-                ? <span>Loading...</span>
-                : <Button onClick={getDate} className="!bg-[#EDEDF1] !rounded-[4px] !h-[28px] translate-x-[1px] label-4-regular !px-[30px] !text-[12px] !text-[rgba(58,58,89,0.33)] !border-none">Lebih</Button>
+                ? <span>memuat...</span>
+                : <Button onClick={()=>getDate()} className="!bg-[#EDEDF1] !rounded-[4px] !h-[28px] translate-x-[1px] label-4-regular !px-[30px] !text-[12px] !text-[rgba(58,58,89,0.33)] !border-none">Lebih</Button>
           }
         </div>
       </div>

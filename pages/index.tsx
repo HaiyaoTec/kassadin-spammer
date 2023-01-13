@@ -1,6 +1,6 @@
 import {Card, Image, Button, Toast, Space, Typography, Tag, Grid, ConfigProvider} from 'react-vant';
 import {NextPageWithLayout} from "./_app";
-import React, {ReactElement} from "react";
+import React, {ReactElement, useEffect} from "react";
 import Layout from "../components/Layout";
 import Notice from "../components/Notice";
 // @ts-ignore
@@ -15,30 +15,31 @@ import CreateOrderPop from '../components/CreateOrderPop';
 import cardButton from '@/assets/images/cardButton.png'
 import mainApi from "../api";
 import {CoinGoods, CoinOrderBulletin} from "../api/samira-service-proxyApi";
+import {toNonExponential} from "../utils";
 
-const CommodityCard = (props:{good:CoinGoods}) => {
-    const {good} = props
+const CommodityCard = (props:{good:CoinGoods,onClick:()=>void}) => {
+    const {good,onClick} = props
     const themeVars = {
         cardRadius: '12px'
     }
     return (<ConfigProvider themeVars={themeVars}>
-            <Card round className={'w-full'}>
+            <Card onClick={onClick} round className={'w-full'}>
                 <Image src={good.background}/>
                 <div className={'right-1/2 translate-x-1/2 absolute top-0 w-[94.8%]'}>
                     <Image src={CardTop}/>
-                    <div className={'text-[3.75vw] top-[15%] absolute flex w-full label-3-bold items-center justify-center text-[#E49BB4]'}><Money className={'mr-0.5'}/><span>{good.income}</span></div>
+                    <div className={'text-[3.75vw] top-[15%] absolute flex w-full label-3-bold items-center justify-center text-[#E49BB4]'}><Money className={'mr-0.5'}/><span>{toNonExponential(good.income||0)}</span></div>
                 </div>
                 <div className={'cursor-pointer right-1/2 translate-x-1/2 absolute bottom-[6%] w-[81%]'}>
                     <Image src={cardButton}/>
-                    <div className={'text-[4.8vw] text-white bottom-[35%] absolute flex w-full label-1-bold items-center justify-center'}><span>Rp {good.price}</span></div>
+                    <div className={'text-[4.8vw] text-white bottom-[35%] absolute flex w-full label-1-bold items-center justify-center'}><span>Rp {toNonExponential(good.price||0)}</span></div>
                 </div>
             </Card>
         </ConfigProvider>
     )
 }
-const Home: NextPageWithLayout<{goods:CoinGoods[],bulletin:CoinOrderBulletin[]}> = (props:{goods:CoinGoods[],bulletin:CoinOrderBulletin[]}) => {
+const Home: NextPageWithLayout<{goods:CoinGoods[],bulletin:CoinOrderBulletin[]}> = (props) => {
   const {goods,bulletin }= props
-  const [visible, setVisible] = useState(false)
+  const [curGood,setGood] = useState<CoinGoods|undefined>()
     return (
         <Space
             direction="vertical"
@@ -48,10 +49,12 @@ const Home: NextPageWithLayout<{goods:CoinGoods[],bulletin:CoinOrderBulletin[]}>
             <Notice bulletin={bulletin}/>
             <div className={'grid gap-4 grid-cols-[repeat(2,_minmax(0,_1fr))]'}>
                 {goods.map((good, index) => (
-                    <CommodityCard good={good}  key={index}/>
+                    <CommodityCard onClick={()=>{
+                        setGood(good)
+                    }} good={good} key={index}/>
                 ))}
             </div>
-          <CreateOrderPop  open={visible} close={() => setVisible(false)} />
+            <CreateOrderPop good={curGood} close={() => setGood(undefined)} />
         </Space>
     )
 }

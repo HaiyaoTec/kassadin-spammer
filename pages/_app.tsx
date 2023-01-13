@@ -3,6 +3,8 @@ import Head from 'next/head'
 import React, {ReactElement, ReactNode, useEffect, useState} from "react";
 import '../styles/globals.css'
 import {NextPage} from "next";
+import { Analytics } from '@vercel/analytics/react';
+import {LiveChatWidget} from "@livechat/widget-react";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode
@@ -42,6 +44,8 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
             {getLayout(
                 <Component {...pageProps} />
             )}
+            <LiveChatWidget license="12891963" />
+            <Analytics/>
         </>
 }
 

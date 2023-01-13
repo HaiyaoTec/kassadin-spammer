@@ -13,10 +13,11 @@ import Shield from '@/assets/svgs/shield.svg'
 import User from '@/assets/svgs/user.svg'
 // @ts-ignore
 import RightSquare from '@/assets/svgs/rightSquare.svg'
-import {Login as LoginDto} from '../api/samira-service-user-httpApi'
+import {Login as LoginDto, Token} from '../api/samira-service-user-httpApi'
 import {NextPage} from "next";
 import Image from "next/image";
-import mainApi from "../api";
+import mainApi, {MyToast} from "../api";
+import {setLocalStorage} from "../utils";
 
 const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
     const {setMode} = props
@@ -30,11 +31,9 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
             forbidClick: true
         })
         mainApi.ServiceUserApi.loginPassword(values).then((res) => {
-            Toast.success('Berhasil masuk')
-            console.log(res)
+            MyToast.success({message:'Berhasil masuk'})
+            setLocalStorage<Token>('samira-token',res)
             router.replace('/')
-        }).catch(() => {
-            Toast.fail('Log masuk gagal')
         }).finally(() => {
             setLoading(false)
             toastLoading.clear()
@@ -79,7 +78,7 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
                 className="[border:1px_solid_rgba(53,63,78,0.07)] mb-1 bg-[#F9F9FC] h-[50px] pl-[16px] rounded-[3px] [&>input]:!text-[rgba(51,51,64,0.88)]"
                 placeholder='Kata Sandi'
                 prefix={<Lock/>}
-                type={'number'}
+                type={'password'}
             />
         </Form.Item>
     </Form>)
@@ -97,11 +96,9 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
             forbidClick: true
         })
         mainApi.ServiceUserApi.loginPhoneNumber(values).then((res) => {
-            Toast.success('Berhasil masuk')
-            console.log(res)
+            MyToast.success({message:'Berhasil masuk'})
+            setLocalStorage<Token>('samira-token',res)
             router.replace('/')
-        }).catch(() => {
-            Toast.fail('Log masuk gagal')
         }).finally(() => {
             setLoading(false)
             toastLoading.clear()
@@ -123,10 +120,8 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
             await form.validateFields(['phoneNumber'])
             setLoading(true)
             mainApi.ServiceUserApi.loginSendVerificationCode({phoneNumber: form.getFieldValue('phoneNumber')}).then(() => {
-                Toast.success('Kirim sukses')
+                MyToast.success({message:'Kirim sukses'})
                 time()
-            }).catch(() => {
-                Toast.fail('Gagal mengirim')
             }).finally(() => {
                 setLoading(false)
             })

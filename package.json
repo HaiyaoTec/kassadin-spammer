@@ -15,7 +15,9 @@
     "axios": "^0.27.2",
     "react-dom": "latest",
     "qs": "^6.11.0",
-    "react-vant": "latest"
+    "react-vant": "latest",
+    "@vercel/analytics": "^0.1.5",
+    "@livechat/widget-react": "^1.2.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",
