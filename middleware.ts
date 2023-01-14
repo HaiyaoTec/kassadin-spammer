@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
   const country = req.geo?.country
   if (country === BLOCKED_COUNTRY) {
     req.nextUrl.pathname = '/login'
-    return NextResponse.rewrite(req.nextUrl)
+    return NextResponse.redirect(req.nextUrl)
   }
   // 返回ip信息
   const response = NextResponse.next()
