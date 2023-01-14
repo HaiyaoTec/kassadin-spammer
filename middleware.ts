@@ -19,7 +19,7 @@ export function middleware(req: NextRequest) {
   if (autos.includes(req.nextUrl.pathname)) {
     const token = req.cookies.get('main_token')
     req.nextUrl.pathname = '/login'
-    if (!token) return NextResponse.rewrite(req.nextUrl)
+    if (!token) return NextResponse.redirect(req.nextUrl)
   }
   return response
 }

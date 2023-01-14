@@ -7,6 +7,7 @@ const withTM = require('next-transpile-modules')([
 ]);
 
 const nextConfig = withTM(withImages({
+    analyticsId: 'Hkxq0ySOarWqnnZfb9K5GiKhBmN',
     reactStrictMode: false,
     swcMinify: true,
     eslint: {

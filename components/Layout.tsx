@@ -66,7 +66,7 @@ const CustomNavBar = ()=>{
             mainApi.ServiceUserApi.loginOffline().finally(()=>{
                 localStorage.removeItem('samira-token')
                 delCookie('main_token')
-                router.replace('/login')
+                router.push('/login')
             })
         }
         const openService = ()=>{
