@@ -1,6 +1,6 @@
 import type {AppProps} from 'next/app'
 import Head from 'next/head'
-import React, {ReactElement, ReactNode, useEffect, useState} from "react";
+import React, {ReactElement, ReactNode, useEffect, useRef, useState} from "react";
 import '../styles/globals.css'
 import {NextPage} from "next";
 import { Analytics } from '@vercel/analytics/react';
@@ -28,12 +28,18 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
     useEffect(() => {
         window.addEventListener('resize', boxHeightChange)
         boxHeightChange()
+        const model = document.getElementById('model')
+        if (model){
+            model.onload = (e)=>{
+                alert(e)
+            }
+        }
         return () => {
             window.removeEventListener('resize', boxHeightChange)
         }
     }, [])
     return vw > 500 ?
-        <iframe style={{margin: "auto", border: '1px solid #1EA68A'}} width={500} height={'90%'} src={location.href}
+        <iframe id={'model'} style={{margin: "auto", border: '1px solid #1EA68A'}} width={500} height={'90%'} src={location.href}
                 frameBorder="0"></iframe> : <>
             <Head>
                 <meta
