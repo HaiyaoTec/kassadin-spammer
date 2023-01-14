@@ -18,6 +18,13 @@ const boxHeightChange = () => {
 
 function MyApp({Component, pageProps}: AppPropsWithLayout) {
     const getLayout = Component.getLayout || (pageProps => pageProps)
+    const [vw, setVw] = useState(500)
+    useEffect(() => {
+        setVw(document.body.clientWidth)
+        window.onresize = function () {
+            setVw(document.body.clientWidth)
+        }
+    }, [])
     useEffect(() => {
         window.addEventListener('resize', boxHeightChange)
         boxHeightChange()
@@ -25,7 +32,9 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
             window.removeEventListener('resize', boxHeightChange)
         }
     }, [])
-    return <>
+    return vw > 500 ?
+        <iframe style={{margin: "auto", border: '1px solid #1EA68A'}} width={500} height={'90%'} src={location.href}
+                frameBorder="0"></iframe> : <>
             <Head>
                 <meta
                     name="viewport"
