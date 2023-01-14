@@ -1,6 +1,6 @@
 // @ts-ignore
 import loginBanner from '@/assets/images/login_banner.png'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Input, Form, Typography, Toast, ConfigProvider, FormInstance} from 'react-vant'
 import {useRouter} from "next/router";
 // @ts-ignore
@@ -31,9 +31,9 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
             forbidClick: true
         })
         mainApi.ServiceUserApi.loginPassword(values).then((res) => {
-            MyToast.success({message:'Berhasil masuk'})
-            setLocalStorage<Token>('samira-token',res)
-            router.replace('/')
+            MyToast.success({message: 'Berhasil masuk'})
+            router.push('/')
+            setLocalStorage<Token>('samira-token', res)
         }).finally(() => {
             setLoading(false)
             toastLoading.clear()
@@ -96,9 +96,9 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
             forbidClick: true
         })
         mainApi.ServiceUserApi.loginPhoneNumber(values).then((res) => {
-            MyToast.success({message:'Berhasil masuk'})
-            setLocalStorage<Token>('samira-token',res)
-            router.replace('/')
+            MyToast.success({message: 'Berhasil masuk'})
+            setLocalStorage<Token>('samira-token', res)
+            router.push('/')
         }).finally(() => {
             setLoading(false)
             toastLoading.clear()
@@ -114,13 +114,13 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
                 setTimeout(() => {
                     time(--val)
                 }, 1000)
-            }else setText('Dapatkan')
+            } else setText('Dapatkan')
         }
         const sendVerification = async () => {
             await form.validateFields(['phoneNumber'])
             setLoading(true)
             mainApi.ServiceUserApi.loginSendVerificationCode({phoneNumber: form.getFieldValue('phoneNumber')}).then(() => {
-                MyToast.success({message:'Kirim sukses'})
+                MyToast.success({message: 'Kirim sukses'})
                 time()
             }).finally(() => {
                 setLoading(false)
@@ -186,6 +186,10 @@ const Login: NextPage = () => {
         cellVerticalPadding: 0,
         cellHorizontalPadding: 0
     }
+    const router = useRouter()
+    useEffect(() => {
+        router.prefetch('/')
+    })
     return (
         <main className={'flex-1 flex flex-col items-center'}>
             <div className={'w-full'}>

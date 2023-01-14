@@ -3,7 +3,7 @@ import SvgLoading from '@/assets/svgs/loading.svg'
 import React, {Dispatch, SetStateAction, useEffect} from 'react'
 import { Toast } from 'react-vant'
 import {CoinGoods, CoinOrder, CoinOrderCreate, PayResponse} from "../../api/samira-service-proxyApi";
-import mainApi from "../../api";
+import mainApi, {MyToast} from "../../api";
 
 const Step3 = (props: {
   setStep: React.Dispatch<React.SetStateAction<number>>
@@ -23,6 +23,7 @@ const Step3 = (props: {
             props.setStep(v => v + 1)
             setCommitData(v=>({...v,coinOrder:res}))
             clearInterval(timer)
+            MyToast.success({message:"Top up sukses"})
           }
         })
       }
