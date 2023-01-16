@@ -63,6 +63,7 @@ const responseErrHandler = (error: AxiosError) => {
   return new Promise<Response>((resolve, reject) => {
     if (error.message === 'network timeout') {
       MyToast.error({message:errorCode['-2']})
+      reject()
       return
     }
     const errCode = ((error?.response?.data) as any)?.errCode??"-1"
