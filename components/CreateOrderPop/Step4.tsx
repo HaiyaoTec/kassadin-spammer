@@ -64,7 +64,7 @@ const Step4 = (props: {
       clearInterval(timerRef.current)
     }
   }, [])
-    const [show,setShow] = useState(true)
+    const [show,setShow] = useState(false)
   return (
     <div className="pt-[18px] pb-[40px] px-[24px] [&_.label>span]:text-[rgba(58,58,89,0.33)] text-[rgba(51,51,64,0.88)]">
       <div className={"w-[100px] h-[100px] rounded-[50%] flex justify-center items-center mx-auto" + (state === 0 ? '' : ' bg-[linear-gradient(180deg,#44DE94_0%,#1EA68A_100%)]')}>
@@ -79,7 +79,7 @@ const Step4 = (props: {
       <div className="mt-[40px] label label-3-semi-bold flex justify-between items-center h-[24px]">
         <span>Order ID</span>
         <p className="flex items-center label-3-regular">
-          #{commitData.coinOrder.orderNo}
+          {commitData.coinOrder.orderNo}
           <span onClick={() => copyText(String(commitData.coinOrder.orderNo))} className="inline-flex justify-center items-center w-[24px] h-[24px] bg-[rgba(30,166,138,0.1)] rounded-[3px] ml-[4px] cursor-pointer"><SvgCopy /></span>
         </p>
       </div>
