@@ -9,15 +9,16 @@ import {CoinGoods, CoinOrder, CoinOrderCreate, PayResponse} from "../../api/sami
 const steps = [
   Step1,
   Step2,
-  Step3,
+  // Step3,
   Step4,
 ]
 
 const CreateOrderPop = (props: {
-  good: CoinGoods|undefined
+  good: CoinGoods|undefined|true
+  coinOrder?: CoinOrder
   close: () => void
 }) => {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(props.coinOrder ? 2 : 0)
   const Content = useMemo(() => steps[step], [step])
   const [commitData,setCommitData] = useState<CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}>({
     extra: "", income: 0, portKey: "", receiverUid: "", payUrl: "", rechargNO: "", coinOrder: {
@@ -25,7 +26,13 @@ const CreateOrderPop = (props: {
     }
   })
   useEffect(() => {
-    !!props.good && setStep(0)
+    if (props.coinOrder && !!props.good) {
+      setStep(2)
+      setCommitData(v => ({...v, rechargNO: props.coinOrder?.orderNo, coinOrder: props.coinOrder!}))
+    }
+  }, [props.coinOrder, props.good])
+  useEffect(() => {
+    !props.good && setStep(0)
   }, [props.good])
   return (
     <Popup className="rounded-t-[40px]" position="bottom" visible={!!props.good} onClose={props.close}>

@@ -1,6 +1,6 @@
 // @ts-ignore
 import loginBanner from '@/assets/images/login_banner.png'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {Button, Input, Form, Typography, Toast, ConfigProvider, FormInstance} from 'react-vant'
 import {useRouter} from "next/router";
 // @ts-ignore
@@ -83,6 +83,39 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
         </Form.Item>
     </Form>)
 }
+const Send = (props: { form: FormInstance }) => {
+    const {form} = props
+    const [loading, setLoading] = useState<boolean>(false)
+    const [txt, setText] = useState('Dapatkan')
+    const timerRef = useRef<NodeJS.Timeout | number>()
+    const time = (val: number = 60) => {
+        if (val > 0) {
+            setText(`${val}s`)
+            timerRef.current = setTimeout(() => {
+                time(--val)
+            }, 1000)
+        } else setText('Dapatkan')
+    }
+    const sendVerification = async () => {
+        if (loading) {
+            return
+        }
+        await form.validateFields(['phoneNumber'])
+        setLoading(true)
+        mainApi.ServiceUserApi.loginSendVerificationCode({phoneNumber: form.getFieldValue('phoneNumber')}).then(() => {
+            MyToast.success({message: 'Kirim sukses'})
+            clearTimeout(timerRef.current)
+            time()
+        }).finally(() => {
+            setLoading(false)
+        })
+    }
+    return (<Button
+        onClick={sendVerification}
+        loading={loading}
+        className={'!rounded-[3px] min-w-[91px] !text-white label-2-semi-bold !h-[50px] !py-[12px] !px-[10px] !border-0 !bg-[#1EA68A]'}
+        block>{txt}</Button>)
+}
 const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
     const {setMode} = props
     const [form] = Form.useForm<LoginDto>()
@@ -103,34 +136,6 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
             setLoading(false)
             toastLoading.clear()
         })
-    }
-    const Send = (props: { form: FormInstance }) => {
-        const {form} = props
-        const [loading, setLoading] = useState<boolean>(false)
-        const [txt, setText] = useState('Dapatkan')
-        const time = (val: number = 60) => {
-            if (val > 0) {
-                setText(`${val}s`)
-                setTimeout(() => {
-                    time(--val)
-                }, 1000)
-            } else setText('Dapatkan')
-        }
-        const sendVerification = async () => {
-            await form.validateFields(['phoneNumber'])
-            setLoading(true)
-            mainApi.ServiceUserApi.loginSendVerificationCode({phoneNumber: form.getFieldValue('phoneNumber')}).then(() => {
-                MyToast.success({message: 'Kirim sukses'})
-                time()
-            }).finally(() => {
-                setLoading(false)
-            })
-        }
-        return (<Button
-            onClick={sendVerification}
-            loading={loading}
-            className={'!rounded-[3px] min-w-[91px] !text-white label-2-semi-bold !h-[50px] !py-[12px] !px-[10px] !border-0 !bg-[#1EA68A]'}
-            block>{txt}</Button>)
     }
     return (<Form
         form={form}

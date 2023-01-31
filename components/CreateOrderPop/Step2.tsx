@@ -48,7 +48,7 @@ const Step2 = (props: {
                             <div className="flex items-center">
                                 <div
                                     className="relative mr-[6px] w-[81px] h-[30px] [border:1px_solid_rgba(53,63,78,0.07)] rounded-[5px] overflow-hidden">
-                                    <BlurImg src={item.icon||'https://img2.baidu.com/it/u=3564422843,1071800624&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=493'}/>
+                                    <BlurImg src={item.icon||''}/>
                                 </div>
                                 <div className="text-[rgba(51,51,64,0.88)]">
                                     {/*<p className="label-3-semi-bold mb-[4px]">{item.bankNumber}</p>*/}
@@ -62,7 +62,7 @@ const Step2 = (props: {
                         </div>
                     ))}
                 </div>
-                <Button onClick={commit} className={'!mt-2 w-[70%] !rounded-[18px] !border-0 label-1-bold !bg-[#1EA68A]'}
+                <Button loading={loading} onClick={commit} className={'!mt-2 w-[70%] !rounded-[18px] !border-0 label-1-bold !bg-[#1EA68A]'}
                         nativeType='submit' type='primary'>
                     yakin
                 </Button>
