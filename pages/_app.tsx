@@ -38,9 +38,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
             window.removeEventListener('resize', boxHeightChange)
         }
     }, [])
-    return vw > 500 ?
-        <iframe id={'model'} style={{margin: "auto", border: '1px solid #1EA68A'}} width={500} height={'90%'} src={location.href}
-                frameBorder="0"></iframe> : <>
+    return <>
             <Head>
                 <meta
                     name="viewport"

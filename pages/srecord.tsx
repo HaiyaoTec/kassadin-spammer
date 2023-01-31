@@ -9,7 +9,7 @@ import { Arrow } from '@react-vant/icons';
 import mainApi from "../api";
 import {CoinOrder} from "../api/samira-service-proxyApi";
 import {formatDate, toNonExponential} from "../utils";
-const curCount = 10
+const curCount = 20
 const Srecord: NextPageWithLayout = () => {
   const [curPage,setCurPage] = useState(1)
   const [search, setSearch] = useState('')

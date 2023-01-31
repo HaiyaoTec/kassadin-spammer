@@ -12,10 +12,10 @@ import React, {Dispatch, SetStateAction, useState} from "react";
 import {CoinGoods, CoinOrder, CoinOrderCreate, PayResponse} from "../../api/samira-service-proxyApi";
 
 const Step4 = (props: {
-    setStep: React.Dispatch<React.SetStateAction<number>>
-    setCommitData: Dispatch<SetStateAction<CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}>>
+    setStep?: React.Dispatch<React.SetStateAction<number>>
+    setCommitData?: Dispatch<SetStateAction<CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}>>
     commitData: CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}
-    good: CoinGoods|undefined
+    good?: CoinGoods|undefined
 }) => {
   const {commitData} = props
     const [show,setShow] = useState(true)
