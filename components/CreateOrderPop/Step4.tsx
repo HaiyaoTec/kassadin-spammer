@@ -52,16 +52,18 @@ const Step4 = (props: {
     })
   }
   useEffect(() => {
-    let num = 60
-    timerRef.current = setInterval(() => {
-      if (--num <= 0) {
+    if (state === 0) {
+      let num = 60
+      timerRef.current = setInterval(() => {
+        if (--num <= 0) {
+          clearInterval(timerRef.current)
+        } else {
+          getResData()
+        }
+      }, 3000)
+      return () => {
         clearInterval(timerRef.current)
-      } else {
-        getResData()
-      }
-    }, 3000)
-    return () => {
-      clearInterval(timerRef.current)
+      } 
     }
   }, [])
     const [show,setShow] = useState(false)
