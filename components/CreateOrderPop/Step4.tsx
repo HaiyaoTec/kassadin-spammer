@@ -61,11 +61,11 @@ const Step4 = (props: {
           getResData()
         }
       }, 3000)
-      return () => {
-        clearInterval(timerRef.current)
-      } 
     }
-  }, [])
+    return () => {
+      clearInterval(timerRef.current)
+    }
+  }, [state])
     const [show,setShow] = useState(false)
   return (
     <div className="pt-[18px] pb-[40px] px-[24px] [&_.label>span]:text-[rgba(58,58,89,0.33)] text-[rgba(51,51,64,0.88)]">
