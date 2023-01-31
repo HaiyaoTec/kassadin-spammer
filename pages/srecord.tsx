@@ -40,7 +40,6 @@ const Srecord: NextPageWithLayout = () => {
     setList([])
     getDate(1)
   }
-
   return (
     <div className="p-[12px_16px_0px]">
       <Input
