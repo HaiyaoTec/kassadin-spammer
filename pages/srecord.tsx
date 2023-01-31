@@ -7,9 +7,10 @@ import money from "@/assets/images/money.png"
 import Image from 'next/image'
 import { Arrow } from '@react-vant/icons';
 import mainApi from "../api";
-import {CoinOrder} from "../api/samira-service-proxyApi";
+import {CoinOrder, CoinOrderCreate, PayResponse} from "../api/samira-service-proxyApi";
 import {formatDate, toNonExponential} from "../utils";
-const curCount = 10
+import CreateOrderPop from '../components/CreateOrderPop';
+const curCount = 20
 const Srecord: NextPageWithLayout = () => {
   const [curPage,setCurPage] = useState(1)
   const [search, setSearch] = useState('')
@@ -17,6 +18,7 @@ const Srecord: NextPageWithLayout = () => {
   const [load, setLoad] = useState(false)
   const [totals, setTotals] = useState(0)
   const [list, setList] = useState<CoinOrder[]>([])
+  const [popupData, setPopupData] = useState<CoinOrder | null>(null)
   const [searchLoading,setSearchLoading] = useState(false)
   const getDate = (page?:number) => {
     setLoading(true)
@@ -26,7 +28,7 @@ const Srecord: NextPageWithLayout = () => {
     }).then(res=>{
       setTotals(res.totalCount!)
       setList(v => v.concat(res.items||[]))
-      setCurPage(v=>v+1)
+      setCurPage(v=>(page ?? v) + 1)
     })
   }
   useEffect(getDate,[])
@@ -34,12 +36,12 @@ const Srecord: NextPageWithLayout = () => {
     setLoad(true)
   },[])
   const searchFun = ()=>{
-     if (search.length>0){
-       setSearchLoading(true)
-       setList([])
-       getDate(1)
-     }
+    setSearchLoading(true)
+    setList([])
+    getDate(1)
   }
+  console.log(list);
+  
   return (
     <div className="p-[12px_16px_0px]">
       <Input
@@ -65,7 +67,7 @@ const Srecord: NextPageWithLayout = () => {
           <tbody className="text-[rgba(51,51,64,0.88)]">
             {
               list.length>0?list.map((item, idx) => (
-                <tr key={idx} className="whitespace-nowrap flex items-center h-[40px] mb-[10px] label-4-regular">
+                <tr key={idx} className="whitespace-nowrap flex items-center h-[40px] mb-[10px] label-4-regular" onClick={() => setPopupData(item)}>
                   <td className="flex-1">{item.orderNo}</td>
                   <td className="flex-1 flex justify-center items-center">
                     <Image alt="" src={money} width={18} height={18} />
@@ -96,6 +98,7 @@ const Srecord: NextPageWithLayout = () => {
           }
         </div>
       </div>
+      <CreateOrderPop good={!!popupData} close={() => setPopupData(null)} coinOrder={popupData || {}} />
     </div>
   )
 }

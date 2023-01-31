@@ -24,10 +24,18 @@ const Step3 = (props: {
             setCommitData(v=>({...v,coinOrder:res}))
             clearInterval(timer)
             MyToast.success({message:"Top up sukses"})
+          } else if (res.state===3||res.state===9) {
+            props.setStep(v => v + 1)
+            setCommitData(v=>({...v,coinOrder:res}))
+            clearInterval(timer)
+            MyToast.success({message:"Top up gagal"})
           }
         })
       }
     }, 3000)
+    return () => {
+      clearInterval(timer)
+    }
   }, [])
   return (
     <div className="pt-[18px] pb-[40px] px-[24px]">
