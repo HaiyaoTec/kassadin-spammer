@@ -11,16 +11,35 @@ import mainApi, { MyToast } from "../api";
 import { PhoneNumber } from "../api/samira-service-user-httpApi";
 
 const Promotion: NextPageWithLayout = () => {
+  const [todayClickedNumbers, setTodayClickedNumbers] = useState<string[]>([])
   const [potentialUser, setPotentialUser] = useState<PhoneNumber[]>([])
   const [potentialUserAll, setPotentialUserAll] = useState<PhoneNumber[]>([])
   const [getMoreLoading, setGetMoreLoading] = useState<boolean>(false)
   useEffect(() => {
+    todayClickedNumbers.length > 0 && localStorage.setItem('todayClickedNumbers', JSON.stringify(todayClickedNumbers))
+  }, [todayClickedNumbers])
+  useEffect(() => {
+    const lastClickTime = +(localStorage.getItem('lastClickTime') ?? '0')
+    const taday = new Date()
+    taday.setHours(0)
+    taday.setMinutes(0)
+    taday.setSeconds(0)
+    if (lastClickTime < +taday) {
+      localStorage.setItem('todayClickedNumbers', '[]')
+    } else {
+      try {
+        const tdClNums = JSON.parse(localStorage.getItem('todayClickedNumbers') ?? '[]')
+        setTodayClickedNumbers(tdClNums)
+      } catch (error) {}
+    }
     mainApi.ServiceUserApi.loadingPhoneNumberList().then(res => {
       setPotentialUser(res.slice(0, 10))
       setPotentialUserAll(res)
     })
   }, [])
   const toContact = (phone: string) => {
+    localStorage.setItem('lastClickTime', Date.now().toString())
+    setTodayClickedNumbers(v => [...v, phone])
     window.open(`https://wa.me/${phone}`, '_blank')
   }
   const getMore = () => {
@@ -49,7 +68,7 @@ const Promotion: NextPageWithLayout = () => {
               potentialUser?.length > 0 ? potentialUser.map((item, idx) => (
                 <li key={idx} className="[border:1px_solid_rgba(53,63,78,0.07)] h-[42px] bg-[#F9F9FC] flex items-center rounded-[3px] mb-[16px]">
                   <p className="flex-1 pl-[16px] label-3-regular text-[rgba(51,51,64,0.88)]">+62 {item.phone?.slice(0, 4)}****{item.phone?.slice(-2)}</p>
-                  <Button onClick={() => toContact(item.phone)} className="!bg-[#1EA68A] !text-[#ffffff] !h-[42px] !py-0 !border-none !px-[10px] !rounded-[3px] translate-x-[1px] label-2-semi-bold" icon={<SvgTel />} >
+                  <Button onClick={() => toContact(item.phone)} className={"!bg-[#1EA68A] !text-[#ffffff] !h-[42px] !py-0 !border-none !px-[10px] !rounded-[3px] translate-x-[1px] label-2-semi-bold" + (todayClickedNumbers.includes(item.phone) ? ' opacity-60' : '')} icon={<SvgTel />} >
                     Kointak
                   </Button>
                 </li>
