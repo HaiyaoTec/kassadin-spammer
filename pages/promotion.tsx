@@ -39,7 +39,7 @@ const Promotion: NextPageWithLayout = () => {
   }, [])
   const toContact = (phone: string) => {
     localStorage.setItem('lastClickTime', Date.now().toString())
-    setTodayClickedNumbers(v => [...v, phone])
+    setTodayClickedNumbers(v => Array.from(new Set([...v, phone])))
     window.open(`https://wa.me/${phone}`, '_blank')
   }
   const getMore = () => {
