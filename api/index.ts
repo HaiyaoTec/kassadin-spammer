@@ -74,7 +74,7 @@ const responseErrHandler = (error: AxiosError) => {
       delCookie('main_token')
     }
     MyToast.error({
-      message: errorCode[String(errCode)],
+      message: errorCode[String(errCode)]?errorCode[String(errCode)]:errorCode["-1"],
     });
     reject()
   })
