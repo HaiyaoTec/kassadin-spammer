@@ -5,6 +5,7 @@ import '../styles/globals.css'
 import {NextPage} from "next";
 import { Analytics } from '@vercel/analytics/react';
 import {LiveChatWidget} from "@livechat/widget-react";
+import {useRouter} from "next/router";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode
@@ -19,6 +20,7 @@ const boxHeightChange = () => {
 function MyApp({Component, pageProps}: AppPropsWithLayout) {
     const getLayout = Component.getLayout || (pageProps => pageProps)
     const [vw, setVw] = useState(500)
+    const router = useRouter()
     useEffect(() => {
         setVw(document.body.clientWidth)
         window.onresize = function () {
@@ -38,7 +40,15 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
             window.removeEventListener('resize', boxHeightChange)
         }
     }, [])
-    return <>
+    useEffect(()=>{
+        if (self != top) {
+            const url = `${router.asPath}`
+            window.parent.history.replaceState({url: url}, '', url)
+        }
+    },[router.pathname])
+    return vw > 500 ?
+        <iframe  style={{margin: "auto", border: '1px solid #1EA68A'}} width={500} height={'90%'} src={location.href}
+                frameBorder="0"></iframe> : <>
             <Head>
                 <meta
                     name="viewport"

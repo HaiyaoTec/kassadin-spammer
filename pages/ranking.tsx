@@ -41,15 +41,15 @@ const Ranking: NextPageWithLayout<{proxyUserRanks:ProxyUserRank[]}> = (props) =>
                         {
                             proxyUserRanks.length>0?proxyUserRanks.map((item, idx) => (
                                 <tr key={idx} className="h-[40px] mb-[10px] flex items-center">
-                                    <td className="w-[35px] label-2-bold text-[rgba(58,58,89,0.33)] flex justify-center items-center">{
+                                    <td className="w-[38px] h-[38px] mr-1 label-2-bold text-[rgba(58,58,89,0.33)] flex justify-center items-center">{
                                         nbs[idx]
                                             ? <Image width={23} height={28} src={nbs[idx]} alt={String(idx + 1)}/>
                                             : (idx + 1).toString().padStart(2, '0')
                                     }</td>
-                                    <td className="flex items-center flex-1">
-                                        <Image className="rounded-[50%]" width={30} height={30} src={item.avatar?.includes('http')?item.avatar:'https://img2.baidu.com/it/u=2015865969,3401990894&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=546'}
+                                    <td className="flex items-center">
+                                        <Image className="rounded-[50%] flex-1" width={30} height={30} src={item.avatar?.includes('http')?item.avatar:'https://img2.baidu.com/it/u=2015865969,3401990894&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=546'}
                                                alt="ava"/>
-                                        <span className="ml-[4px] label-4-semi-bold whitespace-nowrap overflow-hidden text-ellipsis">{item.username}</span>
+                                        <span className="max-w-[85px] ml-[4px] label-4-semi-bold whitespace-nowrap overflow-hidden text-ellipsis">{item.username}</span>
                                     </td>
                                     <td className="label-4-regular flex-1 text-center">{toNonExponential(item.count??0)}</td>
                                     <td className="flex items-center justify-end label-4-bold flex-1">

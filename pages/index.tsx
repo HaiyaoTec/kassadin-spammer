@@ -27,11 +27,11 @@ const CommodityCard = (props:{good:CoinGoods,onClick:()=>void}) => {
                 <Image src={good.background}/>
                 <div className={'right-1/2 translate-x-1/2 absolute top-0 w-[94.8%]'}>
                     <Image src={CardTop}/>
-                    <div className={'text-[3.75vw] top-[15%] absolute flex w-full label-3-bold items-center justify-center text-[#E49BB4]'}><Money className={'mr-0.5'}/><span>{toNonExponential(good.income||0)}</span></div>
+                    <div className={'text-[12px] top-[15%] absolute flex w-full label-3-bold items-center justify-center text-[#E49BB4]'}><Money className={'mr-0.5'}/><span>{toNonExponential(good.income||0)}</span></div>
                 </div>
                 <div className={'cursor-pointer right-1/2 translate-x-1/2 absolute bottom-[6%] w-[81%]'}>
                     <Image src={cardButton}/>
-                    <div className={'text-[4.8vw] text-white bottom-[35%] absolute flex w-full label-1-bold items-center justify-center'}><span>Rp {toNonExponential(good.price||0)}</span></div>
+                    <div className={'text-[16px] text-white bottom-[31%] absolute flex w-full label-1-bold items-center justify-center'}><span>Rp {toNonExponential(good.price||0)}</span></div>
                 </div>
             </Card>
         </ConfigProvider>
