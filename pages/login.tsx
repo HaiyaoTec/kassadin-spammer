@@ -10,6 +10,8 @@ import Lock from '@/assets/svgs/lock.svg'
 // @ts-ignore
 import Shield from '@/assets/svgs/shield.svg'
 // @ts-ignore
+import Service from '@/assets/svgs/service.svg'
+// @ts-ignore
 import User from '@/assets/svgs/user.svg'
 // @ts-ignore
 import RightSquare from '@/assets/svgs/rightSquare.svg'
@@ -18,6 +20,7 @@ import {NextPage} from "next";
 import Image from "next/image";
 import mainApi, {MyToast} from "../api";
 import {setLocalStorage} from "../utils";
+import { useWidgetIsReady } from '@livechat/widget-react';
 
 const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
     const {setMode} = props
@@ -51,7 +54,7 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
                 <Typography.Text onClick={() => {
                     setMode('phone')
                 }} center className={'justify-center !flex cursor-pointer mt-10 w-full text-semi-bold !text-[#1EA68A]'}>
-                    Masuk Dengan ID <RightSquare className={'inline ml-1.5'}/>
+                    Masuk Dengan Nomor HP <RightSquare className={'inline ml-1.5'}/>
                 </Typography.Text>
             </div>
         }
@@ -187,6 +190,7 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
 }
 const Login: NextPage = () => {
     const [mode, setMode] = useState<'phone' | 'uid'>('phone')
+    const isReady = useWidgetIsReady()
     const themeVars = {
         cellVerticalPadding: 0,
         cellHorizontalPadding: 0
@@ -195,14 +199,25 @@ const Login: NextPage = () => {
     useEffect(() => {
         router.prefetch('/')
     })
+    const openService = ()=>{
+        if (isReady){
+            // @ts-ignore
+            document.getElementById('chat-widget-minimized').contentWindow.document.querySelector('button').click()
+        }else {
+            MyToast.warning({message:'Tunggu sebentar.'})
+        }
+    }
     return (
         <main className={'flex-1 flex flex-col items-center'}>
-            <div className={'w-full'}>
+            <div className={'w-full relative'}>
                 <Image src={loginBanner}
                        width="0"
                        height="0"
                        sizes="100vw"
                        className={'w-full h-full'}/>
+                <div onClick={openService} className={'px-[12px] py-[8px] absolute top-[14px] right-[24px] cursor-pointer rounded-[3px] items-center justify-center flex bg-[rgba(58,58,89,0.33)] active:opacity-70'}>
+                    <Service/>
+                </div>
             </div>
             <div
                 className={'bg-white py-[30px] px-4 mt-[-45%] relative  rounded-[16px] w-[calc(100%-84px)] box-login'}>

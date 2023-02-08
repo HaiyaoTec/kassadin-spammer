@@ -58,7 +58,7 @@ const Promotion: NextPageWithLayout = () => {
   }
   return (
     <div>
-      <div className="relative h-[150px]">
+      <div className="relative h-[calc(100vw/375*150)] max-h-[200px]">
         <Image layout="fill" objectFit="cover" alt="banner" src={promotion_banner} />
       </div>
       <div className="bg-[#4580F0]">
