@@ -89,7 +89,7 @@ const RightBox = ()=>{
 }
 const LeftBox = ()=>{
 
-    return (<div className={'w-[119px] h-[30px] relative'}><Image layout={'fill'} src={logo} /></div>)
+    return (<div className={'w-[119px] h-[30px] relative'}><Image layout={'fill'} objectFit="contain" src={logo} /></div>)
 }
 const CustomNavBar = ()=>{
     const themeVars = {

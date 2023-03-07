@@ -46,12 +46,12 @@ const Ranking: NextPageWithLayout<{proxyUserRanks:ProxyUserRank[]}> = (props) =>
                                             ? <Image width={23} height={28} src={nbs[idx]} alt={String(idx + 1)}/>
                                             : (idx + 1).toString().padStart(2, '0')
                                     }</td>
-                                    <td className="flex items-center">
+                                    <td className="flex items-center flex-1">
                                         <Image className="rounded-[50%] flex-1" width={30} height={30} src={item.avatar?.includes('http')?item.avatar:'https://img2.baidu.com/it/u=2015865969,3401990894&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=546'}
                                                alt="ava"/>
-                                        <span className="max-w-[85px] ml-[4px] label-4-semi-bold whitespace-nowrap overflow-hidden text-ellipsis">{item.username}</span>
+                                        <span className="max-w-[85px] ml-[4px] label-4-semi-bold whitespace-nowrap overflow-hidden text-ellipsis leading-[2em]">{item.username}</span>
                                     </td>
-                                    <td className="label-4-regular flex-1 text-center">{toNonExponential(item.count??0)}</td>
+                                    <td className="label-4-regular flex-[0.6] text-center">{toNonExponential(item.count??0)}</td>
                                     <td className="flex items-center justify-end label-4-bold flex-1">
                                         <Image alt="" src={money} width={18} height={18}/>
                                         <span className="ml-[4px] text-[#1EA68A]">{toNonExponential(item.income??0)}</span>

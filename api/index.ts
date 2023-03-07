@@ -70,8 +70,12 @@ const responseErrHandler = (error: AxiosError) => {
 
     // @ts-ignore
     if (errCode===1) {
-      localStorage.removeItem('samira-token')
-      delCookie('main_token')
+      try {
+        localStorage.removeItem('samira-token')
+        delCookie('main_token')
+      } catch (error) {
+        
+      }
     }
     MyToast.error({
       message: errorCode[String(errCode)]?errorCode[String(errCode)]:errorCode["-1"],

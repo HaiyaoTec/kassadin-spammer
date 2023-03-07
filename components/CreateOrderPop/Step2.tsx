@@ -29,7 +29,7 @@ const Step2 = (props: {
         mainApi.ServicePayApi.buyCoin({
             receiverUid:commitData.receiverUid,
             portKey:activeBank?.portKey!,
-            income:good?.income!
+            id:good?.id!
         }).then(res=>{
             props.setStep(v => v + 1)
             setCommitData(val => ({...val, ...res}))
