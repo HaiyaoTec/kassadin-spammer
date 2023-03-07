@@ -9,6 +9,15 @@ export default function Document() {
             <body>
             <Main />
             <NextScript />
+            <script dangerouslySetInnerHTML={{
+                __html: `if ('serviceWorker' in navigator) {
+                    window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('sw.js')
+                        .then(function(registration) {})
+                        .catch(function(err) {})
+                    })
+                }`
+            }}></script>
             </body>
         </Html>
     )

@@ -101,7 +101,7 @@ const Home: NextPageWithLayout<{ bulletin: CoinOrderBulletin[] }> = (props) => {
               </>
               : <>
                 <Notice bulletin={bulletin} />
-                <div className={'grid gap-4 grid-cols-[repeat(2,_minmax(0,_1fr))]'}>
+                <div className={'grid mt-[16px] gap-4 grid-cols-[repeat(2,_minmax(0,_1fr))]'}>
                   {listGoodsRes?.goods.map((good, index) => (
                     <CommodityCard onClick={() => {
                       setGood(good)
