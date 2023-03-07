@@ -3,7 +3,7 @@
   "display": "standalone",
   "name": "Eearning Rhino",
   "short_name": "Eearning Rhino",
-  "start_url": ".",
+  "start_url": "/",
   "scope": "/",
   "id": "Eearning Rhino",
   "icons": [
