@@ -73,6 +73,7 @@ const responseErrHandler = (error: AxiosError) => {
       try {
         localStorage.removeItem('samira-token')
         delCookie('main_token')
+        window.location.href = '/login'
       } catch (error) {
         
       }

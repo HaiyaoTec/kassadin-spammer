@@ -64,7 +64,7 @@ export const getLocalStorage = <T>(key:string):T=>{
     return JSON.parse(localStorage.getItem(key)||'{}') as T
 }
 export const setLocalStorage = <T extends {token?:string}>(key:string,data:T)=>{
-    setCookie('main_token',data.token||'',30)
+    key === 'samira-token' && setCookie('main_token',data.token||'',30)
     return localStorage.setItem(key,JSON.stringify(data))
 }
 function getCookie(name: string) {
