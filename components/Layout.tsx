@@ -41,7 +41,7 @@ const CustomTabber = () => {
                     Koin
                 </Tabbar.Item>
                 <Tabbar.Item name='/srecord' icon={ac=><TimeCircle fill={ac?'#1EA68A':'#474765'}/>}>
-                    Piwayat
+                    Riwayat
                 </Tabbar.Item>
                 <Tabbar.Item name='/promotion' icon={ac=><Document fill={ac?'#1EA68A':'#474765'}/>}>
                     pontesional
