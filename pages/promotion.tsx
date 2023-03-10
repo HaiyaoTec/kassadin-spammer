@@ -58,11 +58,11 @@ const Promotion: NextPageWithLayout = () => {
   }
   return (
     <div>
-      <div className="relative h-[calc(100vw/375*150)] max-h-[200px]">
+      <div className="relative h-[calc(100vw/375*180)] max-h-[200px]">
         <Image layout="fill" objectFit="cover" alt="banner" src={promotion_banner} />
       </div>
-      <div className="bg-[#4580F0]">
-        <div className="pt-[30px] bg-[#ffffff] rounded-t-[24px]">
+      <div className="-mt-[30px] relative">
+        <div className="bg-[#ffffff] rounded-t-[24px]">
           <ul className="p-[0px_30px_14px] h-[calc(var(--pop-height)_-_290px)] overflow-y-auto">
             {
               potentialUser?.length > 0 ? potentialUser.map((item, idx) => (
