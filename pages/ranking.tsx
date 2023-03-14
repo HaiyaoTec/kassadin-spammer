@@ -1,5 +1,5 @@
 import {NextPageWithLayout} from "./_app";
-import React, {ReactElement} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import Layout from "../components/Layout";
 // @ts-ignore
 import money from "@/assets/images/money.png"
@@ -11,20 +11,26 @@ import nb2 from "@/assets/images/nb2.png"
 import nb3 from "@/assets/images/nb3.png"
 // @ts-ignore
 import ranking_banner from "@/assets/images/ranking_banner.png"
-import Image from 'next/image'
+// import Image from 'next/image'
 import {toNonExponential} from '../utils';
 import mainApi from "../api";
 import {ProxyUserRank} from "../api/samira-service-proxyApi";
-import {Empty} from "react-vant";
+import {Empty, Image} from "react-vant";
 
 const nbs = [nb1, nb2, nb3]
 
-const Ranking: NextPageWithLayout<{proxyUserRanks:ProxyUserRank[]}> = (props) => {
-    const {proxyUserRanks} = props
+const Ranking: NextPageWithLayout = () => {
+    const [proxyUserRanks, setProxyUserRanks] = useState<ProxyUserRank[]>([])
+    useEffect(() => {
+        mainApi.ServicePayApi.listProxyRank().then(res => {
+            setProxyUserRanks(res);
+        })
+    }, [])
+    
     return (
         <div>
             <div className="relative h-[150px] bg-[#007CF7]">
-                <Image layout="fill" objectFit="cover" alt="banner" src={ranking_banner}/>
+                <Image fit="cover" alt="banner" src={ranking_banner}/>
             </div>
             <div className="bg-[#007CF7]">
                 <div className="p-[30px_30px_20px] rounded-t-[24px] bg-[#ffffff]">
@@ -46,12 +52,12 @@ const Ranking: NextPageWithLayout<{proxyUserRanks:ProxyUserRank[]}> = (props) =>
                                             ? <Image width={23} height={28} src={nbs[idx]} alt={String(idx + 1)}/>
                                             : (idx + 1).toString().padStart(2, '0')
                                     }</td>
-                                    <td className="flex items-center flex-1">
-                                        <Image className="rounded-[50%] flex-1" width={30} height={30} src={item.avatar?.includes('http')?item.avatar:'https://img2.baidu.com/it/u=2015865969,3401990894&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=546'}
+                                    <td className="flex items-center flex-1 max-w-[35%]">
+                                        <Image className="rounded-[50%] overflow-hidden flex-shrink-0" width={30} height={30} src={item.avatar?.includes('http')?item.avatar:'https://img2.baidu.com/it/u=2015865969,3401990894&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=546'}
                                                alt="ava"/>
                                         <span className="max-w-[85px] ml-[4px] label-4-semi-bold whitespace-nowrap overflow-hidden text-ellipsis leading-[2em]">{item.username}</span>
                                     </td>
-                                    <td className="label-4-regular flex-[0.6] text-center">{toNonExponential(item.count??0)}</td>
+                                    <td className="label-4-regular w-[15%] text-center">{toNonExponential(item.count??0)}</td>
                                     <td className="flex items-center justify-end label-4-bold flex-1">
                                         <Image alt="" src={money} width={18} height={18}/>
                                         <span className="ml-[4px] text-[#1EA68A]">{toNonExponential(item.income??0)}</span>
@@ -75,9 +81,8 @@ Ranking.getLayout = function (page: ReactElement) {
 }
 
 export async function getStaticProps() {
-    const proxyUserRanks = await mainApi.ServicePayApi.listProxyRank()
     return {
-        props: {proxyUserRanks}, // will be passed to the page component as props
+        props: {}, // will be passed to the page component as props
         revalidate: 600
     }
 }
