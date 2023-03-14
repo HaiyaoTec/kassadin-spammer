@@ -11,7 +11,6 @@ import nb2 from "@/assets/images/nb2.png"
 import nb3 from "@/assets/images/nb3.png"
 // @ts-ignore
 import ranking_banner from "@/assets/images/ranking_banner.png"
-// import Image from 'next/image'
 import {toNonExponential} from '../utils';
 import mainApi from "../api";
 import {ProxyUserRank} from "../api/samira-service-proxyApi";
