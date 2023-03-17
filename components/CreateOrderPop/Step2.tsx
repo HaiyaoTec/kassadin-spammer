@@ -48,7 +48,7 @@ const Step2 = (props: {
                             <div className="flex items-center">
                                 <div
                                     className="relative mr-[6px] w-[81px] h-[30px] [border:1px_solid_rgba(53,63,78,0.07)] rounded-[5px] overflow-hidden">
-                                    <BlurImg src={item.icon||''}/>
+                                    {item.icon && <BlurImg src={item.icon}/>}
                                 </div>
                                 <div className="text-[rgba(51,51,64,0.88)]">
                                     {/*<p className="label-3-semi-bold mb-[4px]">{item.bankNumber}</p>*/}

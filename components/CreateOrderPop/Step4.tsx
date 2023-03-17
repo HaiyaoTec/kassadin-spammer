@@ -19,7 +19,7 @@ import mainApi, { MyToast } from '../../api'
 
 const Step4 = (props: {
     setStep?: React.Dispatch<React.SetStateAction<number>>
-    setCommitData?: Dispatch<SetStateAction<CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}>>
+    setCommitData: Dispatch<SetStateAction<CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}>>
     commitData: CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}
     good?: CoinGoods|undefined
 }) => {
@@ -27,8 +27,12 @@ const Step4 = (props: {
   const timerRef = useRef<number | NodeJS.Timeout>()
   const [state, setState] = useState(commitData.coinOrder.state ?? 0)
   const [btnLoading, setBtnLoading] = useState(false)
+  const rechargNORef = useRef(commitData.rechargNO)
+  useEffect(() => {
+    rechargNORef.current = commitData.rechargNO
+  }, [commitData.rechargNO])
   const getResData = () => {
-    return mainApi.ServicePayApi.getOrder(commitData.rechargNO!).then(res=>{
+    return mainApi.ServicePayApi.getOrder(rechargNORef.current!).then(res=>{
       setState(res.state ?? 0)
       setCommitData(v=>({...v,coinOrder:res}))
       if(res.state===5||res.state===7){
