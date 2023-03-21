@@ -1,0 +1,56 @@
+{
+  "description": "Eearning Rhino",
+  "display": "standalone",
+  "name": "Eearning Rhino",
+  "short_name": "Eearning Rhino",
+  "start_url": "/",
+  "scope": "/",
+  "id": "Eearning Rhino",
+  "icons": [
+    {
+      "src": "/app/app-48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/app/app-57.png",
+      "type": "image/png",
+      "sizes": "57x57"
+    },
+    {
+      "src": "/app/app-72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/app/app-96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/app/app-114.png",
+      "type": "image/png",
+      "sizes": "114x114"
+    },
+    {
+      "src": "/app/app-144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/app/app-168.png",
+      "type": "image/png",
+      "sizes": "168x168"
+    },
+    {
+      "src": "/app/app-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/app/app-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

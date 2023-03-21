@@ -63,17 +63,23 @@ const responseErrHandler = (error: AxiosError) => {
   return new Promise<Response>((resolve, reject) => {
     if (error.message === 'network timeout') {
       MyToast.error({message:errorCode['-2']})
+      reject()
       return
     }
     const errCode = ((error?.response?.data) as any)?.errCode??"-1"
 
     // @ts-ignore
     if (errCode===1) {
-      localStorage.removeItem('samira-token')
-      delCookie('main_token')
+      try {
+        localStorage.removeItem('samira-token')
+        delCookie('main_token')
+        window.location.href = '/login'
+      } catch (error) {
+        
+      }
     }
     MyToast.error({
-      message: errorCode[String(errCode)],
+      message: errorCode[String(errCode)]?errorCode[String(errCode)]:errorCode["-1"],
     });
     reject()
   })

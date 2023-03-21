@@ -18,7 +18,7 @@ import {CoinGoods, CoinOrder, CoinOrderCreate, PayResponse} from "../../api/sami
 import mainApi, { MyToast } from '../../api'
 
 const Step4 = (props: {
-    setStep: React.Dispatch<React.SetStateAction<number>>
+    setStep?: React.Dispatch<React.SetStateAction<number>>
     setCommitData: Dispatch<SetStateAction<CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}>>
     commitData: CoinOrderCreate&PayResponse&{coinOrder:CoinOrder}
     good?: CoinGoods|undefined
@@ -27,8 +27,12 @@ const Step4 = (props: {
   const timerRef = useRef<number | NodeJS.Timeout>()
   const [state, setState] = useState(commitData.coinOrder.state ?? 0)
   const [btnLoading, setBtnLoading] = useState(false)
+  const rechargNORef = useRef(commitData.rechargNO)
+  useEffect(() => {
+    rechargNORef.current = commitData.rechargNO
+  }, [commitData.rechargNO])
   const getResData = () => {
-    return mainApi.ServicePayApi.getOrder(commitData.rechargNO!).then(res=>{
+    return mainApi.ServicePayApi.getOrder(rechargNORef.current!).then(res=>{
       setState(res.state ?? 0)
       setCommitData(v=>({...v,coinOrder:res}))
       if(res.state===5||res.state===7){
@@ -52,19 +56,21 @@ const Step4 = (props: {
     })
   }
   useEffect(() => {
-    let num = 60
-    timerRef.current = setInterval(() => {
-      if (--num <= 0) {
-        clearInterval(timerRef.current)
-      } else {
-        getResData()
-      }
-    }, 3000)
+    if (state === 0) {
+      let num = 60
+      timerRef.current = setInterval(() => {
+        if (--num <= 0) {
+          clearInterval(timerRef.current)
+        } else {
+          getResData()
+        }
+      }, 3000)
+    }
     return () => {
       clearInterval(timerRef.current)
     }
-  }, [])
-    const [show,setShow] = useState(true)
+  }, [state])
+    const [show,setShow] = useState(false)
   return (
     <div className="pt-[18px] pb-[40px] px-[24px] [&_.label>span]:text-[rgba(58,58,89,0.33)] text-[rgba(51,51,64,0.88)]">
       <div className={"w-[100px] h-[100px] rounded-[50%] flex justify-center items-center mx-auto" + (state === 0 ? '' : ' bg-[linear-gradient(180deg,#44DE94_0%,#1EA68A_100%)]')}>
@@ -79,7 +85,7 @@ const Step4 = (props: {
       <div className="mt-[40px] label label-3-semi-bold flex justify-between items-center h-[24px]">
         <span>Order ID</span>
         <p className="flex items-center label-3-regular">
-          #{commitData.coinOrder.orderNo}
+          {commitData.coinOrder.orderNo}
           <span onClick={() => copyText(String(commitData.coinOrder.orderNo))} className="inline-flex justify-center items-center w-[24px] h-[24px] bg-[rgba(30,166,138,0.1)] rounded-[3px] ml-[4px] cursor-pointer"><SvgCopy /></span>
         </p>
       </div>

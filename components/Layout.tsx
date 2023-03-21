@@ -41,7 +41,7 @@ const CustomTabber = () => {
                     Koin
                 </Tabbar.Item>
                 <Tabbar.Item name='/srecord' icon={ac=><TimeCircle fill={ac?'#1EA68A':'#474765'}/>}>
-                    Piwayat
+                    Riwayat
                 </Tabbar.Item>
                 <Tabbar.Item name='/promotion' icon={ac=><Document fill={ac?'#1EA68A':'#474765'}/>}>
                     pontesional
@@ -53,46 +53,45 @@ const CustomTabber = () => {
         </ConfigProvider>
     )
 }
+const RightBox = ()=>{
+    const router = useRouter()
+    const [Uid,setUid] = useState(0)
+    useEffect(()=>{
+        setUid(getLocalStorage<Token>('samira-token').uId||0)
+    },[])
+    const isReady = useWidgetIsReady()
+    const logout = ()=>{
+        mainApi.ServiceUserApi.loginOffline().finally(()=>{
+            localStorage.removeItem('samira-token')
+            delCookie('main_token')
+            router.push('/login')
+        })
+    }
+    const openService = ()=>{
+        if (isReady){
+            // @ts-ignore
+            document.getElementById('chat-widget-minimized').contentWindow.document.querySelector('button').click()
+        }else {
+            MyToast.warning({message:'Tunggu sebentar.'})
+        }
+    }
+    return (<div className={'flex [&>*]:ml-1'}>
+        <div className={'label-4-semi-bold px-[6px] py-[11px] border-[rgba(53, 63, 78, 0.07)] border-solid cursor-pointer rounded-[3px] items-center justify-center flex bg-[#F9F9FC] border-[1px]'}>
+            <span className={'text-[#333340E0]'}>ID:<span className={'text-[#4747658C]'}>{Uid}</span></span>
+        </div>
+        <div onClick={openService} className={'px-[10px] py-[6px] cursor-pointer rounded-[3px] items-center justify-center flex bg-[#1EA68A] active:opacity-70'}>
+            <Service/>
+        </div>
+        <div  onClick={logout} className={'px-[10px] py-[5px] border-[rgba(53, 63, 78, 0.07)] border-solid cursor-pointer rounded-[3px] items-center justify-center flex bg-[#F9F9FC] border-[1px] active:opacity-70'}>
+            <Logout/>
+        </div>
+    </div>)
+}
+const LeftBox = ()=>{
 
+    return (<div className={'w-[119px] h-[30px] relative'}><Image layout={'fill'} objectFit="contain" src={logo} /></div>)
+}
 const CustomNavBar = ()=>{
-    const RightBox = ()=>{
-        const router = useRouter()
-        const [Uid,setUid] = useState(0)
-        useEffect(()=>{
-            setUid(getLocalStorage<Token>('samira-token').uId||0)
-        },[])
-        const isReady = useWidgetIsReady()
-        const logout = ()=>{
-            mainApi.ServiceUserApi.loginOffline().finally(()=>{
-                localStorage.removeItem('samira-token')
-                delCookie('main_token')
-                router.push('/login')
-            })
-        }
-        const openService = ()=>{
-            if (isReady){
-                // @ts-ignore
-                document.getElementById('chat-widget-minimized').contentWindow.document.querySelector('button').click()
-            }else {
-                MyToast.warning({message:'Tunggu sebentar.'})
-            }
-        }
-        return (<div className={'flex [&>*]:ml-1'}>
-            <div className={'label-4-semi-bold px-[6px] py-[11px] border-[rgba(53, 63, 78, 0.07)] border-solid cursor-pointer rounded-[3px] items-center justify-center flex bg-[#F9F9FC] border-[1px]'}>
-                <span className={'text-[#333340E0]'}>ID:<span className={'text-[#4747658C]'}>{Uid}</span></span>
-            </div>
-            <div onClick={openService} className={'px-[10px] py-[6px] cursor-pointer rounded-[3px] items-center justify-center flex bg-[#1EA68A]'}>
-                <Service/>
-            </div>
-            <div  onClick={logout} className={'px-[10px] py-[5px] border-[rgba(53, 63, 78, 0.07)] border-solid cursor-pointer rounded-[3px] items-center justify-center flex bg-[#F9F9FC] border-[1px]'}>
-                <Logout/>
-            </div>
-        </div>)
-    }
-    const LeftBox = ()=>{
-
-        return (<div className={'w-[119px] h-[30px] relative'}><Image layout={'fill'} src={logo} /></div>)
-    }
     const themeVars = {
         navBarHeight:'50px',
         paddingMd:'12px'

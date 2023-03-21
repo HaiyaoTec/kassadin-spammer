@@ -25,7 +25,7 @@ const Step1 = (props: {
         className="!text-[14px] [border:1px_solid_rgba(53,63,78,0.07)] bg-[#F9F9FC] h-[50px] px-[16px] rounded-[3px] mt-[9px] mb-[20px] [&>input]:!text-[rgba(51,51,64,0.88)] [&>input::placeholder]:text-[rgba(61,61,89,0.18)]"
         value={code}
         onChange={code => setCode(code)}
-        placeholder='Verification Code'
+        placeholder='Menerima ID'
       />
       <div className="label label-3-semi-bold flex justify-between items-center h-[24px]">
         <span>Barang</span>

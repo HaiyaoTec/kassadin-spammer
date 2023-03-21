@@ -6,11 +6,12 @@ const autos = [
 ]
 export function middleware(req: NextRequest) {
   // 阻止地区
-  const country = req.geo?.country
-  if (country === BLOCKED_COUNTRY) {
-    req.nextUrl.pathname = '/login'
-    return NextResponse.rewrite(req.nextUrl)
-  }
+  // const country = req.geo?.country
+  // if (country === BLOCKED_COUNTRY) {
+  //   req.nextUrl.pathname = '/login'
+  //   return NextResponse.redirect(req.nextUrl)
+  //
+  // }
   // 返回ip信息
   const response = NextResponse.next()
   // response.cookies.set('x-ip', req.ip)

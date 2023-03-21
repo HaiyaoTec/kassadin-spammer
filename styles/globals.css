@@ -347,3 +347,7 @@ a {
     pointer-events: none!important;
 
 }
+
+.rv-nav-bar__right:active {
+    opacity: 1 !important;
+}

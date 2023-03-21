@@ -41,7 +41,7 @@ const Srecord: NextPageWithLayout = () => {
     getDate(1)
   }
   console.log(list);
-  
+
   return (
     <div className="p-[12px_16px_0px]">
       <Input
@@ -56,7 +56,7 @@ const Srecord: NextPageWithLayout = () => {
       <table className="w-full">
         <thead>
           <tr className="flex items-center h-[40px] mb-[10px] label-3-semi-bold text-[rgba(71,71,101,0.55)]">
-            <th className="flex-1">ID</th>
+            <th className="flex-[.7]">ID</th>
             <th className="flex-1 flex justify-center">Barang</th>
             <th className="flex-1">Waku</th>
           </tr>
@@ -67,14 +67,14 @@ const Srecord: NextPageWithLayout = () => {
           <tbody className="text-[rgba(51,51,64,0.88)]">
             {
               list.length>0?list.map((item, idx) => (
-                <tr key={idx} className="whitespace-nowrap flex items-center h-[40px] mb-[10px] label-4-regular" onClick={() => setPopupData(item)}>
-                  <td className="flex-1">{item.orderNo}</td>
+                <tr key={idx} className={`whitespace-nowrap flex items-center h-[40px] mb-[10px] label-4-regular ${[5,7].includes(item.state) ? '' : 'text-[rgba(58,58,89,0.33)]'}`} onClick={() => setPopupData(item)}>
+                  <td className="flex-[.7]">{item.receiverUid}</td>
                   <td className="flex-1 flex justify-center items-center">
                     <Image alt="" src={money} width={18} height={18} />
-                    <span className="ml-[4px] text-[#1EA68A] label-4-bold">{toNonExponential(item.price||0)}</span>
+                    <span className={`ml-[4px] ${[5,7].includes(item.state) ? 'text-[#1EA68A]' : 'text-[rgba(58,58,89,0.33)]'} label-4-bold`}>{toNonExponential(item.price||0)}</span>
                   </td>
                   <td className="flex-1 flex justify-end items-center mr-1">
-                    {formatDate(item.createTime!, 'DD/MM/YYYY HH:mm:ss')}
+                    {formatDate(item.createTime!, 'DD/MM HH:mm:ss')}
                     <Arrow width={14} height={14} />
                   </td>
                 </tr>

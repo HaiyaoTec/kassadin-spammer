@@ -12,10 +12,15 @@
 export interface CoinGoods {
   /** 价格 */
   price?: number;
-
+  id: number;
   /** 金额 */
   income?: number;
   background?: string;
+}
+
+export interface ListGoodsRes {
+  lock: boolean
+  goods: CoinGoods[]
 }
 
 export interface CoinOrderPage {
@@ -99,7 +104,7 @@ export interface ProxyUserRank {
 
 export interface CoinOrderCreate {
   /** 商品id */
-  income: number;
+  id: number;
 
   /** 玩家id */
   receiverUid: string;
@@ -299,7 +304,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @request GET:/proxy/coinGoods
    */
   listGoods = (params: RequestParams = {}) =>
-    this.request<CoinGoods[], any>({
+    this.request<ListGoodsRes, any>({
       path: `/proxy/coinGoods`,
       method: "GET",
       format: "json",
