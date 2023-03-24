@@ -188,6 +188,7 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
                         setPwdErr(true)
                         return Promise.reject(new Error(''))
                     }else {
+                        setPwdErr(false)
                         return Promise.resolve(true)
                     }
                 } }]}
