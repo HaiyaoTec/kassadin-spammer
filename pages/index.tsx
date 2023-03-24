@@ -30,17 +30,22 @@ const CommodityCard = (props: { good: CoinGoods, onClick: () => void }) => {
   const themeVars = {
     cardRadius: '12px'
   }
+  useEffect(()=>{
+    console.log(good)
+  },[good])
   return (<ConfigProvider themeVars={themeVars}>
     <Card onClick={onClick} round className={'w-full'}>
-      <Image src={good.background} />
-      <div className={'right-1/2 translate-x-1/2 absolute top-0 w-[94.8%]'}>
-        <Image src={CardTop} />
-        <div className={'text-[12px] top-[15%] absolute flex w-full label-3-bold items-center justify-center text-[#ffffff]'}><Money className={'mr-0.5'} /><span>{toNonExponential(good.income || 0)}</span></div>
-      </div>
-      <div className={'cursor-pointer right-1/2 translate-x-1/2 absolute bottom-[4.5%] w-[82%]'}>
-        <Image src={cardButton} />
-        <div className={'text-[16px] text-white absolute top-0 left-0 right-0 bottom-0 flex w-full label-1-bold items-center justify-center'}><span>Rp {toNonExponential(good.price || 0)}</span></div>
-      </div>
+      <Card.Body>
+        <Image src={good.background} />
+        <div className={'right-1/2 translate-x-1/2 absolute top-0 w-[94.8%]'}>
+          <Image src={CardTop} />
+          <div className={'text-[12px] top-[15%] absolute flex w-full label-3-bold items-center justify-center text-[#ffffff]'}><Money className={'mr-0.5'} /><span>{toNonExponential(good.income || 0)}</span></div>
+        </div>
+        <div className={'cursor-pointer right-1/2 translate-x-1/2 absolute bottom-[4.5%] w-[82%]'}>
+          <Image src={cardButton} />
+          <div className={'text-[16px] text-white absolute top-0 left-0 right-0 bottom-0 flex w-full label-1-bold items-center justify-center'}><span>Rp {toNonExponential(good.price || 0)}</span></div>
+        </div>
+      </Card.Body>
     </Card>
   </ConfigProvider>
   )
@@ -102,11 +107,13 @@ const Home: NextPageWithLayout<{ bulletin: CoinOrderBulletin[] }> = (props) => {
               : <>
                 <Notice bulletin={bulletin} />
                 <div className={'grid mt-[16px] gap-4 grid-cols-[repeat(2,_minmax(0,_1fr))]'}>
-                  {listGoodsRes?.goods.map((good, index) => (
-                    <CommodityCard onClick={() => {
-                      setGood(good)
-                    }} good={good} key={index} />
-                  ))}
+                  {listGoodsRes?.goods.map((good, index) => {
+                    return (
+                        <CommodityCard onClick={() => {
+                          setGood(good)
+                        }} good={good} key={index} />
+                    )
+                  })}
                 </div>
               </>
           }
