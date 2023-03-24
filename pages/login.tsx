@@ -49,7 +49,7 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
             <div className={'absolute bottom-[-40px] w-full left-0 translate-y-[100%]'}>
                 <Button className={'!rounded-[18px] !border-0 label-1-bold !bg-[#1EA68A]'} loading={loading}
                         nativeType='submit' type='primary' block>
-                    Masuk
+                    Masuk / Daftar
                 </Button>
                 <Typography.Text onClick={() => {
                     setMode('phone')
@@ -153,7 +153,7 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
             <div className={'absolute bottom-[-40px] w-full left-0 translate-y-[100%]'}>
                 <Button className={'!rounded-[18px] !border-0 label-1-bold !bg-[#1EA68A]'} loading={loading}
                         nativeType='submit' type='primary' block>
-                    Masuk
+                    Masuk / Daftar
                 </Button>
                 <Typography.Text onClick={() => {
                     setMode('uid')
@@ -183,12 +183,13 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
         >
             <Input
                 className="[border:1px_solid_rgba(53,63,78,0.07)] mb-1 bg-[#F9F9FC] h-[50px] pl-[16px] rounded-[3px] [&>input]:!text-[rgba(51,51,64,0.88)]"
-                placeholder='Kode Verifikasi'
-                prefix={<Shield/>}
+                placeholder='kata Sandi'
+                prefix={<Lock/>}
+                type={'password'}
             />
         </Form.Item>
         <Typography.Text className={'footnote-regular !text-[#3A3A5954] !text-[12px]'}>
-            Jika Anda tidak memiliki akun, akun baru untuk Anda saatAnda masuk
+            Kata sandi memiliki 8-16 karakter dan harus berisi angka dan huruf
         </Typography.Text>
     </Form>)
 }
