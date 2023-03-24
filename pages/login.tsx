@@ -124,6 +124,7 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
     const [form] = Form.useForm<LoginDto>()
     const router = useRouter()
     const [loading, setLoading] = useState<boolean>(false)
+    const [pwdErr,setPwdErr]=useState(false)
     const onFinish = (values: LoginDto) => {
 
         setLoading(true)
@@ -177,7 +178,15 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
             />
         </Form.Item>
         <Form.Item
-            rules={[{required: true, message: 'Silakan masukkan kata sandi Anda'},{ pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]{8,16}$/, message: 'Kata sandi memiliki 8-16 karakter dan harus berisi angka dan huruf' }]}
+            rules={[{required: true, message: 'Silakan masukkan kata sandi Anda'},{ validator:(_,val)=>{
+                    // pattern: , message: 'Kata sandi memiliki 8-16 karakter dan harus berisi angka dan huruf'
+                    if(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]{8,16}$/.test(val)){
+                        setPwdErr(false)
+                        return Promise.resolve(true)
+                    }
+                    setPwdErr(true)
+                    return Promise.reject(new Error(''))
+                } }]}
             name='password'
             border={false}
         >
@@ -188,9 +197,9 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
                 type={'password'}
             />
         </Form.Item>
-        <Typography.Text className={'footnote-regular !text-[#3A3A5954] !text-[12px]'}>
+        <p className={`footnote-regular text-[#3a3a5954] text-[12px] ${pwdErr?'!text-[#f44336]':''}`}>
             Kata sandi memiliki 8-16 karakter dan harus berisi angka dan huruf
-        </Typography.Text>
+        </p>
     </Form>)
 }
 const Login: NextPage = () => {
