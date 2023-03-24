@@ -131,6 +131,12 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
             message: 'Masuk..',
             forbidClick: true
         })
+        //如果有62，把前面的62去掉
+        if(values.phoneNumber?.slice(0,2)==='62'){
+            values.phoneNumber=values.phoneNumber.slice(2)
+        }
+        //把前面的62加上
+        values.phoneNumber='62'+values.phoneNumber
         mainApi.ServiceUserApi.loginPhoneNumber(values).then((res) => {
             MyToast.success({message: 'Berhasil masuk'})
             setLocalStorage<Token>('samira-token', res)
@@ -158,29 +164,27 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
         }
     >
         <Form.Item
-            rules={[{required: true, message: 'Nomor telepon tidak boleh kosong'}]}
+            rules={[{required: true, message: 'Masukkan nomor telepon anda'},{ pattern: /\d{8,14}$/, message: 'Format telepon salah, masukkan 8-14 digit' }]}
             name='phoneNumber'
             border={false}
             className={'mb-[30px]'}
         >
             <Input
                 className="[border:1px_solid_rgba(53,63,78,0.07)] mb-1 bg-[#F9F9FC] h-[50px] px-[16px] rounded-[3px] [&>input]:!text-[rgba(51,51,64,0.88)]"
-                placeholder='62 Nomor HP'
-                prefix={<Iphone/>}
+                placeholder='Nomor HP'
+                prefix={<span className={'flex'}><Iphone/>+62</span>}
                 type={'number'}
             />
         </Form.Item>
         <Form.Item
-            rules={[{required: true, message: 'Kode otentikasi tidak bisa kosong'}]}
-            name='verificationCode'
+            rules={[{required: true, message: 'Silakan masukkan kata sandi Anda'},{ pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]{8,16}$/, message: 'Kata sandi memiliki 8-16 karakter dan harus berisi angka dan huruf' }]}
+            name='password'
             border={false}
         >
             <Input
                 className="[border:1px_solid_rgba(53,63,78,0.07)] mb-1 bg-[#F9F9FC] h-[50px] pl-[16px] rounded-[3px] [&>input]:!text-[rgba(51,51,64,0.88)]"
                 placeholder='Kode Verifikasi'
                 prefix={<Shield/>}
-                suffix={<Send form={form}/>}
-                type={'number'}
             />
         </Form.Item>
         <Typography.Text className={'footnote-regular !text-[#3A3A5954] !text-[12px]'}>
