@@ -4,7 +4,7 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 // 处理查询参数为数组的情况
 import * as qs from 'qs'
 // 配置默认baseURL
-const curBaseURL = 'https://api.earningrhino.com/api/'
+const curBaseURL = 'https://samira.jinuo.fun/api/'
 import {Api as ServicePayApi} from './samira-service-proxyApi'
 import {Api as HeraclesPayApi} from './heracles-payApi'
 // @ts-ignore
