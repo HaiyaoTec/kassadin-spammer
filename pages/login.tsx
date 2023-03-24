@@ -165,7 +165,8 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
         }
     >
         <Form.Item
-            rules={[{required: true, message: 'Masukkan nomor telepon anda'},{ pattern: /\d{8,14}$/, message: 'Format telepon salah, masukkan 8-14 digit' }]}
+            validateTrigger={'onBlur'}
+            rules={[{required: true, message: 'Masukkan nomor telepon anda'},{pattern: /\d{8,14}$/, message: 'Format telepon salah, masukkan 8-14 digit' }]}
             name='phoneNumber'
             border={false}
             className={'mb-[30px]'}
@@ -178,14 +179,17 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
             />
         </Form.Item>
         <Form.Item
-            rules={[{required: true, message: 'Silakan masukkan kata sandi Anda'},{ validator:(_,val)=>{
-                    // pattern: , message: 'Kata sandi memiliki 8-16 karakter dan harus berisi angka dan huruf'
-                    if(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]{8,16}$/.test(val)){
+            validateTrigger={'onBlur'}
+            rules={[{ validator:(_,val)=>{
+                    if(val===undefined||val===''){
                         setPwdErr(false)
+                        return Promise.reject(new Error('Silakan masukkan kata sandi Anda'))
+                    }else if(!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]{8,16}$/.test(val))){
+                        setPwdErr(true)
+                        return Promise.reject(new Error(''))
+                    }else {
                         return Promise.resolve(true)
                     }
-                    setPwdErr(true)
-                    return Promise.reject(new Error(''))
                 } }]}
             name='password'
             border={false}
