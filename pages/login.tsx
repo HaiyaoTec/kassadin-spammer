@@ -184,7 +184,7 @@ const Phone = (props: { setMode: (mode: 'uid') => {} | any }) => {
                     if(val===undefined||val===''){
                         setPwdErr(false)
                         return Promise.reject(new Error('Silakan masukkan kata sandi Anda'))
-                    }else if(!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9a-zA-Z]{8,16}$/.test(val))){
+                    }else if(!(/^(?=.*[a-zA-Z])(?=.*\d).{8,16}$/.test(val))){
                         setPwdErr(true)
                         return Promise.reject(new Error(''))
                     }else {
