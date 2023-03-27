@@ -27,6 +27,15 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
     const [form] = Form.useForm<LoginDto>()
     const router = useRouter()
     const [loading, setLoading] = useState<boolean>(false)
+    useEffect(()=>{
+        if(window.location.search){
+            let params = new URL(location.href).searchParams;
+            if(params.get('token')&&params.get('uId')){
+                setLocalStorage<Token>('samira-token', {token:params.get('token')||'',uId:params.get('uId')})
+                router.push('/')
+            }
+        }
+    },[])
     const onFinish = (values: LoginDto) => {
         setLoading(true)
         const toastLoading = Toast.loading({

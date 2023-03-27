@@ -24,14 +24,7 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
     const getLayout = Component.getLayout || (pageProps => pageProps)
     const [vw, setVw] = useState(500)
     const router = useRouter()
-    useEffect(()=>{
-        if(window.location.search){
-            let params = new URL(location.href).searchParams;
-            if(params.get('token')&&params.get('uId')){
-                setLocalStorage<Token>('samira-token', {token:params.get('token')||'',uId:params.get('uId')})
-            }
-        }
-    },[])
+
     useEffect(() => {
         setVw(document.body.clientWidth)
         window.onresize = function () {
