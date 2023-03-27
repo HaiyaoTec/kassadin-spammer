@@ -36,7 +36,7 @@ const CommodityCard = (props: { good: CoinGoods, onClick: () => void }) => {
   return (<ConfigProvider themeVars={themeVars}>
     <Card onClick={onClick} round className={'w-full'}>
       <Card.Body>
-        <Image src={good.background} />
+        <Image src={good.background?.replace('samira1.oss-ap-northeast-1-internal.aliyuncs.com','assets.rhinoslot.com')} />
         <div className={'right-1/2 translate-x-1/2 absolute top-0 w-[94.8%]'}>
           <Image src={CardTop} />
           <div className={'text-[12px] top-[15%] absolute flex w-full label-3-bold items-center justify-center text-[#ffffff]'}><Money className={'mr-0.5'} /><span>{toNonExponential(good.income || 0)}</span></div>
