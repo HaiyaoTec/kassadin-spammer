@@ -36,14 +36,15 @@ const nextConfig = withTM(withImages({
     },
     images: {
         disableStaticImages: true,
-        remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'img2.baidu.com',
-            port: '',
-            pathname: '/**',
-          }
-        ]
+        // remotePatterns: [
+        //   {
+        //     protocol: 'https',
+        //     hostname: 'img2.baidu.com',
+        //     port: '',
+        //     pathname: '/**',
+        //   }
+        // ],
+        domains: ['assets.rhinoslot.com'],
     }
 }))
 
