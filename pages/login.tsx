@@ -27,15 +27,7 @@ const Uid = (props: { setMode: (mode: 'phone') => {} | any }) => {
     const [form] = Form.useForm<LoginDto>()
     const router = useRouter()
     const [loading, setLoading] = useState<boolean>(false)
-    useEffect(()=>{
-        if(window.location.search){
-            let params = new URL(location.href).searchParams;
-            if(params.get('token')&&params.get('uId')){
-                setLocalStorage<Token>('samira-token', {token:params.get('token')||'',uId:params.get('uId')})
-                router.push('/')
-            }
-        }
-    },[])
+
     const onFinish = (values: LoginDto) => {
         setLoading(true)
         const toastLoading = Toast.loading({
@@ -235,6 +227,22 @@ const Login: NextPage = () => {
             MyToast.warning({message:'Tunggu sebentar.'})
         }
     }
+    const reciveMsg = (event:any)=>{
+            if(event.origin==='https://samira-promote.vercel.app'){
+                setLocalStorage<Token>('samira-token', JSON.parse(event.data))
+                router.push('/')
+            }
+    }
+    useEffect(()=>{
+        if(window.opener){
+            Toast.loading('Masuk...')
+            window.opener.postMessage('I am ok','https://samira-promote.vercel.app')
+        }
+        window.addEventListener('message',reciveMsg,false)
+        return ()=>{
+            window.removeEventListener('message',reciveMsg)
+        }
+    },[])
     return (
         <main className={'flex-1 flex flex-col items-center'}>
             <div className={'w-full relative'}>
