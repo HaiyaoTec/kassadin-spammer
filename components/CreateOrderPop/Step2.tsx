@@ -29,6 +29,9 @@ const Step2 = (props: {
         mainApi.ServicePayApi.buyCoin({
             receiverUid:commitData.receiverUid,
             portKey:activeBank?.portKey!,
+            extra: JSON.stringify({
+                redirectUrl:'https://'
+            }),
             id:good?.id!
         }).then(res=>{
             props.setStep(v => v + 1)
