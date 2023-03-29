@@ -38,8 +38,10 @@ const Step4 = (props: {
       if(res.state===5||res.state===7){
         // props.setStep(v => v + 1)
         clearInterval(timerRef.current)
-        location.reload()
         commitData.portKey && MyToast.success({message:"Top up sukses"})
+        setTimeout(()=>{
+            location.reload()
+        },2000)
       } else if (res.state===3||res.state===9) {
         // props.setStep(v => v + 1)
         clearInterval(timerRef.current)
