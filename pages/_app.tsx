@@ -16,10 +16,25 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout
 }
-
+const boxHeightChange = () => {
+    document.documentElement.style.setProperty('--pop-height', `${window.innerHeight}px`)
+}
 function MyApp({Component, pageProps}: AppPropsWithLayout) {
     const getLayout = Component.getLayout || (pageProps => pageProps)
     const router = useRouter()
+    useEffect(() => {
+        window.addEventListener('resize', boxHeightChange)
+        boxHeightChange()
+        const model = document.getElementById('model')
+        if (model){
+            model.onload = (e)=>{
+                alert(e)
+            }
+        }
+        return () => {
+            window.removeEventListener('resize', boxHeightChange)
+        }
+    }, [])
     useEffect(()=>{
         if (self != top) {
             const url = `${router.asPath}`
