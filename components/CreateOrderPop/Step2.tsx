@@ -25,7 +25,7 @@ const Step2 = (props: {
     const commit = ()=>{
         setCommitData(val => ({...val, portKey: activeBank?.portKey!}))
         setLoading(true)
-        const newWindow = window.open('about:blank') as Window
+        const newWindow = window.open('about:blank',"_blank") as Window
         mainApi.ServicePayApi.buyCoin({
             receiverUid:commitData.receiverUid,
             portKey:activeBank?.portKey!,
