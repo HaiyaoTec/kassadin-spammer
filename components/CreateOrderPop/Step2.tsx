@@ -30,7 +30,7 @@ const Step2 = (props: {
             receiverUid:commitData.receiverUid,
             portKey:activeBank?.portKey!,
             extra: JSON.stringify({
-                redirectUrl:'https://'
+                redirectUrl:'https://earningrhino.com/succeed.html'
             }),
             id:good?.id!
         }).then(res=>{
