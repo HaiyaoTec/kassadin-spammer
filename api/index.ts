@@ -8,7 +8,8 @@ import * as qs from 'qs'
 // https://api.earningrhino.com/api/
 //测试
 // https://api-samira-proxy.haiyaogame.com/api/
-const curBaseURL = 'https://crazykoin.com/api/'
+
+const curBaseURL = typeof window === undefined ?'https://api.earningrhino.com/api/':window.location.origin+'/api/'
 import {Api as ServicePayApi} from './samira-service-proxyApi'
 import {Api as HeraclesPayApi} from './heracles-payApi'
 // @ts-ignore
