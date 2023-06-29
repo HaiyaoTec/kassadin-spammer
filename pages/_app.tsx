@@ -7,8 +7,6 @@ import { Analytics } from '@vercel/analytics/react';
 import {LiveChatWidget} from "@livechat/widget-react";
 import {useRouter} from "next/router";
 import 'react-vant/es/styles';
-import {setLocalStorage} from "../utils";
-import {Token} from "../api/samira-service-user-httpApi";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode

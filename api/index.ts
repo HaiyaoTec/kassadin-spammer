@@ -5,14 +5,10 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import * as qs from 'qs'
 // 配置默认baseURL
 //正式
-// https://api.earningrhino.com/api/
 //测试
-// https://api-samira-proxy.haiyaogame.com/api/
-const curBaseURL = typeof window === 'undefined' ?'https://api.earningrhino.com/api/':window.location.origin+'/api/'
-import {Api as ServicePayApi} from './samira-service-proxyApi'
-import {Api as HeraclesPayApi} from './heracles-payApi'
+const curBaseURL = 'https://api-kassadin.haiyaogame.com/api/'
 // @ts-ignore
-import {Api as ServiceUserApi, Token} from './samira-service-user-httpApi'
+import {Api as SpammerApi, Token} from './kassadin-promot-spammer-api'
 import {delCookie, getLocalStorage} from "../utils";
 import {Toast} from "react-vant";
 import {Checked, Clear, Passed, Warning} from "@react-vant/icons";
@@ -21,28 +17,23 @@ import {errorCode} from "./errorCode";
 import {Router, useRouter} from "next/router";
 // baseAPI
 const baseAPIMap = new Map()
-baseAPIMap.set('ServicePayApi', ServicePayApi)
-baseAPIMap.set('ServiceUserApi', ServiceUserApi)
-baseAPIMap.set('HeraclesPayApi',HeraclesPayApi)
+baseAPIMap.set('SpammerApi', SpammerApi)
 Toast.allowMultiple(false)
 
 
 // 默认请求中间件
 const requestMiddleWare = async (config: AxiosRequestConfig) => {
-  const token = typeof window === 'undefined'?'':getLocalStorage<Token>('samira-token').token
   config = {
     ...config,
     baseURL:curBaseURL,
     headers: {
+      agent_token: typeof window !== 'undefined' ? localStorage.getItem('agent_token') || '' : '',
     },
     paramsSerializer: (params: any) => {
       return qs.stringify(params, { arrayFormat: 'comma' })
     },
     timeout: 10000,
     timeoutErrorMessage: 'network timeout',
-  }
-  if (token){ // @ts-ignore
-    config.headers['main_token'] = token
   }
   config.headers
   return config
@@ -71,12 +62,12 @@ const responseErrHandler = (error: AxiosError) => {
       return
     }
     const errCode = ((error?.response?.data) as any)?.errCode??"-1"
-
+    console.log(errCode)
     // @ts-ignore
     if (errCode===1) {
       try {
-        localStorage.removeItem('samira-token')
-        delCookie('main_token')
+        localStorage.removeItem('agent_token')
+        delCookie('agent_token')
         window.location.href = '/login'
       } catch (error) {
 
@@ -102,16 +93,12 @@ for (const [key, value] of baseAPIMap) {
 }
 
 interface mainApi {
-  ServiceUserApi:ServiceUserApi<unknown>
-  ServicePayApi:ServicePayApi<unknown>
-  HeraclesPayApi:HeraclesPayApi<unknown>
+  SpammerApi:SpammerApi<unknown>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 const mainApi: mainApi = {
-  ServicePayApi:result.ServicePayApi,
-  ServiceUserApi:result.ServiceUserApi,
-  HeraclesPayApi:result.HeraclesPayApi
+  SpammerApi:result.SpammerApi
 }
 
 export default mainApi
