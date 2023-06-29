@@ -22,7 +22,7 @@ const Home: NextPageWithLayout = () => {
   const [detailData, setDetailData] = useState<SpammerOrder>({})
   const [searchLoading,setSearchLoading] = useState(false)
 
-  const [detailPop,setDetailPop]=useState(true)
+  const [detailPop,setDetailPop]=useState(false)
 
   const getSpammerOrder = (page?:number) => {
     setLoading(true)
