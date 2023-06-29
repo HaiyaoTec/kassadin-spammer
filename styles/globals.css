@@ -357,4 +357,6 @@ a {
 .rv-nav-bar__right:active {
     opacity: 1 !important;
 }
-
+.rv-nav-bar__left{
+    padding: 0 !important;
+}

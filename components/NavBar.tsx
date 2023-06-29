@@ -6,7 +6,9 @@ import {delCookie} from "../utils";
 import Logout from "@/assets/svgs/logout.svg";
 import Image from "next/image";
 // @ts-ignore
-import logo from "@/assets/images/logo.png";
+import logo from "@/assets/images/logo.webp";
+// @ts-ignore
+import logoBg from '@/assets/images/logo-bg.png'
 import Select from "react-select";
 import {SelectOption, Spammer, SpammerCheckParam} from "../api/kassadin-promot-spammer-api";
 import mainApi from "../api";
@@ -125,12 +127,14 @@ const RightBox = ()=>{
 }
 const LeftBox = ()=>{
 
-    return (<div className={'w-[119px] h-[30px] relative'}><Image layout={'fill'} objectFit="contain" src={logo} /></div>)
+    return (<div className={`w-[170px] h-full flex items-center pl-1`} style={{background:`url(${logoBg}) top right / auto 100% no-repeat`}}>
+        <img src={logo} className={'w-[80%]'} />
+    </div>)
 }
 const CustomNavBar = ()=>{
     const themeVars = {
         navBarHeight:'50px',
-        paddingMd:'12px'
+        paddingMd:'12px',
     }
     const router = useRouter()
 

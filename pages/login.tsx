@@ -101,19 +101,9 @@ const Login: NextPage = () => {
         }
     }
     return (
-        <main className={'flex-1 flex flex-col items-center'}>
-            <div className={'w-full relative'}>
-                <Image src={loginBanner}
-                       width="0"
-                       height="0"
-                       sizes="100vw"
-                       className={'w-full h-full'}/>
-                <div onClick={openService} className={'px-[12px] py-[8px] absolute top-[14px] right-[24px] cursor-pointer rounded-[3px] items-center justify-center flex bg-[rgba(58,58,89,0.33)] active:opacity-70'}>
-                    <Service/>
-                </div>
-            </div>
+        <main className={'bg-[#F9F9FC] flex-1 flex items-center pt-[30%]'}>
             <div
-                className={'bg-white py-[30px] px-4 mt-[-45%] relative  rounded-[16px] w-[calc(100%-84px)] box-login'}>
+                className={'bg-white py-[30px] px-4  relative  rounded-[16px] w-[calc(100%-84px)] box-login'}>
                 <ConfigProvider themeVars={themeVars}>
                     <Uid/>
                 </ConfigProvider>

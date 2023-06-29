@@ -10,6 +10,7 @@ import { Arrow } from '@react-vant/icons';
 import mainApi from "../api";
 import {copyText, formatDate, toNonExponential} from "../utils";
 import {SpammerOrder, SpammerOrderResp} from "../api/kassadin-promot-spammer-api";
+// @ts-ignore
 import Copy from "@/assets/svgs/copy.svg";
 const curCount = 20
 const Home: NextPageWithLayout = () => {
