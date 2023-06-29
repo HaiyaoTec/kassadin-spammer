@@ -37,8 +37,8 @@ const Uid = () => {
                 MyToast.success({message: 'Berhasil masuk'})
                 router.push('/')
                 // @ts-ignore
-            console.log(res)
-            window.localStorage.setItem('agent_token', res.agentToken || '')
+                setLocalStorage('agent_token',{token:res.agentToken})
+            // window.localStorage.setItem('agent_token', res.agentToken || '')
             }).finally(() => {
                 setLoading(false)
                 toastLoading.clear()

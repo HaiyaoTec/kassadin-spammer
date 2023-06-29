@@ -63,9 +63,9 @@ export const formatDate = (t: number, str: string) => {
 export const getLocalStorage = <T>(key:string):T=>{
     return JSON.parse(localStorage.getItem(key)||'{}') as T
 }
-export const setLocalStorage = <T extends {token?:string}>(key:string,data:T)=>{
-    key === 'samira-token' && setCookie('agent_token',data.token||'',30)
-    return localStorage.setItem(key,JSON.stringify(data))
+export const setLocalStorage = <T extends {token:string}>(key:string,data:T)=>{
+    setCookie('agent_token',data.token||'',30)
+    return localStorage.setItem(key,data.token)
 }
 function getCookie(name: string) {
     let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
