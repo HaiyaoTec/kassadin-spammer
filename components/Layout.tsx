@@ -13,7 +13,7 @@ import TimeCircle from '@/assets/svgs/timeCircle.svg'
 import Document from '@/assets/svgs/document.svg'
 // @ts-ignore
 import Ranking from '@/assets/svgs/ranking.svg'
-import CustomNavBar from './NavBar'
+import CustomNavBar from './CustomNavBar'
 
 
 
