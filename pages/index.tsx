@@ -81,10 +81,10 @@ const Home: NextPageWithLayout = (props:any) => {
         <table className="w-full">
           <tbody className="text-[rgba(51,51,64,0.88)] text-center">
             {
-              spammerOrder.length===0? (
+              spammerOrder.length>0? (
                 spammerOrder.map(item=>(
-                    <tr className={` flex items-center h-[40px] mb-[10px] label-4-regular`}>
-                      <td className="flex-1 max-w-[80px] break-all mr-2"><span>{item.uId}/{item.wathsApp}</span></td>
+                    <tr key={item.uId} className={` flex items-center h-[40px] mb-[10px] label-4-regular`}>
+                      <td className="flex-1 max-w-[80px] break-all mr-2"><span>{item.uId}{item.wathsApp&&`/${item.wathsApp}`}</span></td>
                       <td className="flex-1">
                         {formatDate(item.checkTime!, 'DD/MM HH:mm:ss')}
                       </td>
