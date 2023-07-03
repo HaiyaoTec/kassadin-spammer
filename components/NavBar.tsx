@@ -80,17 +80,17 @@ const RightBox = ()=>{
                 }
             >
                 <Form.Item border={false}
-                          name={'whatsApp'} rules={[{ required: true, message: 'Masukkan WA' },{pattern:/^\d{10,}$/,message: 'Masukkan lebih dari 10 digit'}]}>
+                          name={'whatsApp'} rules={[{ required: true, message: 'Masukkan WA' },{pattern:/^\d{6,16}$/,message: 'Masukkan lebih dari 10 digit'}]}>
                     <div className={'w-full'}>
                         <p className={'text-[rgba(71,71,101,0.55)] mb-[4px]'}>WA</p>
-                        <Input  className="[border:1px_solid_rgba(53,63,78,0.07)] mb-1 h-[38px] px-[16px] rounded-[3px] [&>input]:!text-[rgba(51,51,64,0.88)]" type={'number'}/>
+                        <Input  className="[border:1px_solid_rgba(204,204,204,1)] mb-1 h-[38px] px-[16px] rounded-[3px] [&>input]:!text-[rgba(51,51,64,0.88)]" type={'number'}/>
                     </div>
                 </Form.Item>
                 <Form.Item border={false}
-                          name={'uId'} rules={[{ required: true, message: 'Masukkan UID' },{pattern:/^\d{10,}$/,message: 'Masukkan lebih dari 10 digit'}]}>
+                          name={'uId'} rules={[{ required: true, message: 'Masukkan UID' },{pattern:/^\d{6,16}$/,message: 'Masukkan lebih dari 10 digit'}]}>
                     <div  className={'w-full'}>
                         <p className={'text-[rgba(71,71,101,0.55)] mb-[4px]'}>UID</p>
-                        <Input  className="[border:1px_solid_rgba(53,63,78,0.07)] mb-1  h-[38px] px-[16px] rounded-[3px] [&>input]:!text-[rgba(51,51,64,0.88)]" type={'number'}/>
+                        <Input  className="[border:1px_solid_rgba(204,204,204,1)] mb-1  h-[38px] px-[16px] rounded-[3px] [&>input]:!text-[rgba(51,51,64,0.88)]" type={'number'}/>
                     </div>
                 </Form.Item>
                 <Form.Item border={false}>
