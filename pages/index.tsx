@@ -36,9 +36,8 @@ const Home: NextPageWithLayout = () => {
         setSearchLoading(false)
       })
   }
-  // useEffect(getSpammerOrder,[])
   useEffect(()=>{
-    setLoad(true)
+    getSpammerOrder()
   },[])
   const searchFun = ()=>{
     setSearchLoading(true)
