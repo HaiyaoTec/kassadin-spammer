@@ -5,25 +5,26 @@ import React, {ReactElement, useEffect, useState} from "react";
 import Layout from "../components/Layout";
 // @ts-ignore
 import money from "@/assets/images/money.png"
-import Image from 'next/image'
 import { Arrow } from '@react-vant/icons';
 import mainApi from "../api";
-import {copyText, formatDate, toNonExponential} from "../utils";
+import {copyText, formatDate} from "../utils";
 import {SpammerOrder, SpammerOrderResp} from "../api/kassadin-promot-spammer-api";
+
+
 // @ts-ignore
 import Copy from "@/assets/svgs/copy.svg";
 const curCount = 20
-const Home: NextPageWithLayout = () => {
+const Home: NextPageWithLayout = (props:any) => {
   const [curPage,setCurPage] = useState(1)
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(false)
-  const [load, setLoad] = useState(false)
   const [totals, setTotals] = useState(0)
   const [spammerOrder, setSpammerOrder] = useState<SpammerOrder[]>([])
   const [detailData, setDetailData] = useState<SpammerOrder>({})
   const [searchLoading,setSearchLoading] = useState(false)
 
   const [detailPop,setDetailPop]=useState(false)
+
 
   const getSpammerOrder = (page?:number) => {
     setLoading(true)
@@ -38,6 +39,7 @@ const Home: NextPageWithLayout = () => {
   }
   useEffect(()=>{
     getSpammerOrder()
+    props.Emitter.on('getSpammerOrder',getSpammerOrder);
   },[])
   const searchFun = ()=>{
     setSearchLoading(true)
@@ -63,7 +65,7 @@ const Home: NextPageWithLayout = () => {
         suffix={
           <Button loading={searchLoading} onClick={searchFun} className="!bg-[#1EA68A] !rounded-[3px] !h-[50px] translate-x-[1px] label-3-semi-bold !px-[10px] !text-[#ffffff] !border-none">Cari</Button>
         }
-        placeholder='Silakan Masukkan ID'
+        placeholder='Masukan UID/WA'
       />
       <table className="w-full">
         <thead>
@@ -97,7 +99,7 @@ const Home: NextPageWithLayout = () => {
                       </td>
                     </tr>
                 ))
-              ):load?<Empty className={'whitespace-nowrap'} description="Sudah tak terhitung jumlahnya" />:null
+              ):loading?<Empty className={'whitespace-nowrap'} description="Sudah tak terhitung jumlahnya" />:null
             }
           </tbody>
         </table>

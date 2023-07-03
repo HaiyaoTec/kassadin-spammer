@@ -14,16 +14,19 @@ import Document from '@/assets/svgs/document.svg'
 // @ts-ignore
 import Ranking from '@/assets/svgs/ranking.svg'
 import CustomNavBar from './CustomNavBar'
+import {EventBus} from "../utils/EventBus";
+const Emitter = new EventBus();
 
 
 
 const Layout = (props: { children: ReactNode }) => {
     const {children} = props
     return (
-        <main>
-            <CustomNavBar/>
-            {children}
-        </main>
+            <main>
+                <CustomNavBar Emitter={Emitter}/>
+                {/*{children}*/}
+                {React.cloneElement(children, { Emitter: Emitter })}
+            </main>
     )
 }
 export default Layout

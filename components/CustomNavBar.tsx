@@ -1,5 +1,5 @@
 import {useRouter} from "next/router";
-import {Button, ConfigProvider, Form, Input, NavBar, Popup} from "react-vant";
+import {Button, ConfigProvider, Form, Input, NavBar, Popup,Toast} from "react-vant";
 import React, {useEffect, useState} from "react";
 import {delCookie} from "../utils";
 // @ts-ignore
@@ -12,8 +12,7 @@ import logoBg from '@/assets/images/logo-bg.png'
 import Select from "react-select";
 import {SelectOption, Spammer, SpammerCheckParam} from "../api/kassadin-promot-spammer-api";
 import mainApi from "../api";
-
-const RightBox = ()=>{
+const RightBox = (props:{Emitter:any})=>{
     const router = useRouter()
     const [enterPop,setEnterPop]=useState(false)
     //组员列表
@@ -30,7 +29,6 @@ const RightBox = ()=>{
     }
     const getSpammerMembers = ()=>{
         mainApi.SpammerApi.getSpammerMembers().then(res=>{
-            console.log(res)
             let members:any[] = [];
             res.map(item=>{
                 members.push({value:item.userName,label:item.userName})
@@ -42,10 +40,11 @@ const RightBox = ()=>{
         })
     }
     const checkSpammer = (val:SpammerCheckParam)=>{
-        console.log(val)
         setScp(Object.assign(spammerCheckParams,val));
         mainApi.SpammerApi.spammerCheck(spammerCheckParams).then(res=>{
-            console.log(res)
+            Toast.success('Berhasil')
+            setEnterPop(false)
+            props.Emitter.emit('getSpammerOrder')
         })
     }
 
@@ -131,7 +130,7 @@ const LeftBox = ()=>{
         <img src={logo} className={'w-[80%]'} />
     </div>)
 }
-const CustomNavBar = ()=>{
+const CustomNavBar = (props:{Emitter:any})=>{
     const themeVars = {
         navBarHeight:'50px',
         paddingMd:'12px',
@@ -145,7 +144,7 @@ const CustomNavBar = ()=>{
             fixed
             placeholder
             leftText={<LeftBox/>}
-            rightText={<RightBox/>}
+            rightText={<RightBox Emitter={props.Emitter}/>}
             leftArrow={false}
             safeAreaInsetTop={true}
         />

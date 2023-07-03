@@ -7,6 +7,8 @@ import { Analytics } from '@vercel/analytics/react';
 import {LiveChatWidget} from "@livechat/widget-react";
 import {useRouter} from "next/router";
 import 'react-vant/es/styles';
+import {EventBus} from "../utils/EventBus";
+const Emitter = new EventBus();
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode
@@ -49,8 +51,6 @@ function MyApp({Component, pageProps}: AppPropsWithLayout) {
             {getLayout(
                 <Component {...pageProps} />
             )}
-            <LiveChatWidget license="12891963" />
-            <Analytics/>
         </>
 }
 
