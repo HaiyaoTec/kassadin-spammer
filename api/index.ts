@@ -5,8 +5,10 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import * as qs from 'qs'
 // 配置默认baseURL
 //正式
+//https://api.pejuangparty.id/api/
 //测试
-const curBaseURL = 'https://api-kassadin.haiyaogame.com/api/'
+// https://api-kassadin.haiyaogame.com/api/
+const curBaseURL = 'https://api.pejuangparty.id/api/'
 // @ts-ignore
 import {Api as SpammerApi, Token} from './kassadin-promot-spammer-api'
 import {delCookie, getLocalStorage} from "../utils";
