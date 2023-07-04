@@ -44,7 +44,7 @@ export interface SpammerOrderResp {
 export interface SpammerOrder {
     id?: number;
     uId?: string;
-    WhatsApp?: string;
+    whatsApp?: string;
 
     /** @format int64 */
     checkTime?: number;
