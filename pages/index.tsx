@@ -70,7 +70,7 @@ const Home: NextPageWithLayout = (props:any) => {
       <table className="w-full">
         <thead>
           <tr className="flex items-center h-[40px] mb-[10px] label-3-semi-bold text-[rgba(71,71,101,0.55)]">
-            <th className="flex-1">UID/WA</th>
+            <th className="flex-1 max-w-[80px]">UID/WA</th>
             <th className="flex-1">Waku</th>
             <th className="flex-1">Mitra</th>
             <th className="flex-1">Status</th>
@@ -84,7 +84,7 @@ const Home: NextPageWithLayout = (props:any) => {
               spammerOrder.length>0? (
                 spammerOrder.map(item=>(
                     <tr key={item.uId} className={` flex items-center h-[40px] mb-[10px] label-4-regular`}>
-                      <td className="flex-1 max-w-[80px] break-all mr-2"><span>{item.uId}{item.wathsApp&&`/${item.wathsApp}`}</span></td>
+                      <td className="flex-1 max-w-[80px] break-all mr-2"><span>{item.uId}{item.WhatsApp&&`/${item.WhatsApp}`}</span></td>
                       <td className="flex-1">
                         {formatDate(item.checkTime!, 'DD/MM HH:mm:ss')}
                       </td>
@@ -129,8 +129,8 @@ const Home: NextPageWithLayout = (props:any) => {
         <h3 className={'py-4 text-center label-3-semi-bold-bold text-[#1EA68A]'}>Detail</h3>
         <div>
           <Cell title={'WA'} titleClass={'text-[#969799]'}>
-            <div className={'flex justify-end items-center text-[#323232]'} onClick={()=>copyText(detailData.wathsApp)}>
-              <span className={'mr-2'}>{detailData.wathsApp}</span>
+            <div className={'flex justify-end items-center text-[#323232]'} onClick={()=>copyText(detailData.WhatsApp)}>
+              <span className={'mr-2'}>{detailData.WhatsApp}</span>
               <Copy/>
             </div>
           </Cell>
