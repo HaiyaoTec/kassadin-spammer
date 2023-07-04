@@ -39,7 +39,10 @@ const Home: NextPageWithLayout = (props:any) => {
   }
   useEffect(()=>{
     getSpammerOrder()
-    props.Emitter.on('getSpammerOrder',getSpammerOrder);
+    props.Emitter.on('refreshSpammerOrder',()=>{
+      setSpammerOrder([])
+      getSpammerOrder()
+    });
   },[])
   const searchFun = ()=>{
     setSearchLoading(true)
@@ -141,7 +144,7 @@ const Home: NextPageWithLayout = (props:any) => {
             </div>
           </Cell>
           <Cell title={'24H Deposit(Tertinggl)'} titleClass={'text-[#969799]'} center>
-            <span className={'text-[#1EA68A]'}>{detailData.depositAmount}</span>
+            <span className={'text-[#1EA68A]'}>Rp {detailData.depositAmount}</span>
           </Cell>
           <Cell title={'Mitra'} titleClass={'text-[#969799]'} >
             <span className={'text-[#323232]'}>{detailData.memberName}</span>

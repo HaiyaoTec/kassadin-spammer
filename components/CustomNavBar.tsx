@@ -44,7 +44,7 @@ const RightBox = (props:{Emitter:any})=>{
         mainApi.SpammerApi.spammerCheck(spammerCheckParams).then(res=>{
             Toast.success('Berhasil')
             setEnterPop(false)
-            props.Emitter.emit('getSpammerOrder')
+            props.Emitter.emit('refreshSpammerOrder')
         })
     }
 
