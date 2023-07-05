@@ -8,7 +8,7 @@ import * as qs from 'qs'
 //https://api.pejuangparty.id/api/
 //测试
 // https://api-kassadin.haiyaogame.com/api/
-const curBaseURL = 'https://api.pejuangparty.id/api/'
+const curBaseURL = 'https://api-kassadin.haiyaogame.com/api/'
 // @ts-ignore
 import {Api as SpammerApi, Token} from './kassadin-promot-spammer-api'
 import {delCookie, getLocalStorage} from "../utils";
