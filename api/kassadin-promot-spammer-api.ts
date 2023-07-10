@@ -51,6 +51,7 @@ export interface SpammerOrder {
     memberName?: string;
     status?: number; //0 pending 1 completed
     depositAmount?: number;
+    riskLevel?:number
 }
 
 import axios, { AxiosInstance, AxiosRequestConfig, ResponseType } from "axios";
