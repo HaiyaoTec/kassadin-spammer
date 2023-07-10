@@ -92,13 +92,8 @@ const Home: NextPageWithLayout = (props:any) => {
                         {formatDate(item.checkTime!, 'DD/MM HH:mm:ss')}
                       </td>
                       <td className="flex-1">{item.memberName}</td>
-                      <td className={'justify-center flex-1 flex items-center'} onClick={()=>{
-                        if(item.status===1) return
-                        setDetailData(item)
-                        setDetailPop(true)
-                      }}>
-                        <span>{item.status===0?'Pending':'Selesai'}</span>
-                        {item.status===0&&<Arrow width={14} height={14}/>}
+                      <td className={'justify-center flex-1 flex items-center'}>
+                        <span>{item.status==1?'Multi-Account':'Done'}</span>
                       </td>
                     </tr>
                 ))
