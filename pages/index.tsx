@@ -93,7 +93,7 @@ const Home: NextPageWithLayout = (props:any) => {
                       </td>
                       <td className="flex-1">{item.memberName}</td>
                       <td className={'justify-center flex-1 flex items-center'}>
-                        <span>{item.riskLevel===1?'Multi-Account':'Done'}</span>
+                        <span>{(item.riskLevel===1||item.riskLevel===2)?'Multi-Account':'Done'}</span>
                       </td>
                     </tr>
                 ))
